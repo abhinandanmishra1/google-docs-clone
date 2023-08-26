@@ -1,11 +1,18 @@
 import { MoreVert, UnfoldMore } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import PropTypes from "prop-types";
+import { useId } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Template = ({ src, alt, templateName }) => {
+export const Template = ({ src, alt, templateName, onClick }) => {
   return (
     <div>
-      <img src={src} alt={alt} className="h-[186px] w-[144px]  border-[1px] rounded hover:border-blue-400 cursor-pointer" />
+      <img
+        src={src}
+        alt={alt}
+        className="h-[186px] w-[144px]  border-[1px] rounded hover:border-blue-400 cursor-pointer"
+        onClick={onClick}
+      />
       <p className="text-base font-normal mt-2">{templateName}</p>
     </div>
   );
@@ -15,12 +22,21 @@ Template.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string,
   templateName: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export const DocumentTemplates = () => {
+  // navigate to /document/:id when create function called with an id created using useId hook
+  const navigate = useNavigate();
+
+  const newDocId = crypto.randomUUID();
+  const createNewDocument = () => {
+    navigate(`/document/${newDocId}`);
+  };
+
   return (
     <div className="bg-gray-lightest flex justify-center">
-      <div className="max-w-3xl w-full py-4">
+      <div className="max-w-4xl w-full py-4">
         <div className="flex justify-between items-center relative">
           <h3 className="text-base">Start a new document</h3>
           <div className="flex items-center">
@@ -38,6 +54,7 @@ export const DocumentTemplates = () => {
             src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png"
             alt="new-document"
             templateName="Blank"
+            onClick={createNewDocument}
           />
         </div>
       </div>

@@ -38,7 +38,7 @@ export const DocuemntListing = () => {
 
   return (
     <div className="bg-white flex justify-center">
-      <div className="max-w-3xl w-full py-4">
+      <div className="max-w-4xl w-full py-4">
         <div className="  flex justify-between items-center">
           <p>Recent Documents</p>
           <div className="flex items-center h-4">
