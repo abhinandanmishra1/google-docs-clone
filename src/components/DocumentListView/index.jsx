@@ -5,6 +5,9 @@ export const DocumentListView = () => {
   return (
     <div className="mt-2">
       <DocumentPreview />
+      <DocumentPreview />
+      <DocumentPreview />
+      <DocumentPreview />
     </div>
   );
 };
