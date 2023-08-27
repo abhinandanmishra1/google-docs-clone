@@ -4,7 +4,7 @@ import { TextEditor } from '../TextEditor'
 
 export const Document = () => {
   return (
-    <div>
+    <div className='w-full'>
         <DocumentHeader />
         <TextEditor />
     </div>

@@ -35,6 +35,59 @@ body {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
 
+.editor .ql-formats .ql-list,
+.editor .ql-formats .ql-size,
+.editor .ql-formats .ql-font,
+.editor .ql-formats .ql-color,
+.editor .ql-formats .ql-background,
+.editor .ql-formats .ql-header,
+.editor .ql-formats .ql-bold,
+.editor .ql-formats .ql-italic,
+.editor .ql-formats .ql-underline,
+.editor .ql-formats .ql-script,
+.editor .ql-formats .ql-align,
+.editor .ql-formats .ql-indent,
+.editor .ql-formats .ql-link,
+.editor .ql-formats .ql-image,
+.editor .ql-formats .ql-blockquote,
+.editor .ql-formats .ql-code-block,
+.editor .ql-formats .ql-direction {
+  /* display: none */
+}
+
+.editor .ql-formats .ql-list:hover,
+.editor .ql-formats .ql-size:hover,
+.editor .ql-formats .ql-font:hover,
+.editor .ql-formats .ql-color:hover,
+.editor .ql-formats .ql-background:hover,
+.editor .ql-formats .ql-header:hover,
+.editor .ql-formats .ql-bold:hover,
+.editor .ql-formats .ql-italic:hover,
+.editor .ql-formats .ql-underline:hover,
+.editor .ql-formats .ql-script:hover,
+.editor .ql-formats .ql-align:hover,
+.editor .ql-formats .ql-indent:hover,
+.editor .ql-formats .ql-link:hover,
+.editor .ql-formats .ql-image:hover,
+.editor .ql-formats .ql-blockquote:hover,
+.editor .ql-formats .ql-code-block:hover,
+.editor .ql-formats .ql-direction:hover {
+  background-color: #e8ebee;
+  border-radius: 6px;
+  color: #5f6368 !important;
+  fill: #5f6368 !important;
+}
+
+.ql-picker-label,
+.ql-picker-label:before {
+  color: #5f6368 !important;
+}
+
+.ql-stroke {
+  stroke: #5f6368 !important;
+  /* fill: #5F6368 !important; */
+}
+
 @page {
   margin: 1in;
 }
@@ -57,3 +110,33 @@ body {
     display: none;
   }
 }
+
+/* overrides */
+
+.ql-snow.ql-toolbar button:hover,
+.ql-snow .ql-toolbar button:hover,
+.ql-snow.ql-toolbar button:focus,
+.ql-snow .ql-toolbar button:focus,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button.ql-active,
+/* .ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-toolbar .ql-picker-label:hover, */
+/* .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow .ql-toolbar .ql-picker-item:hover, */
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: #5f6368;
+}
+
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  display: block;
+  margin-top: -1px;
+  top: 110%;
+  padding: 10px;
+  z-index: 1;
+  background: green;
+  border-radius: 10px;
+}
+

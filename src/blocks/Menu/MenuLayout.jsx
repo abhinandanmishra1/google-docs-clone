@@ -22,7 +22,6 @@ export const MenuLayout = ({ items, name }) => {
             id="basic-button"
             aria-haspopup="true"
             variant="text"
-            classes={{ root: "hover:bg-green p-0" }}
           >
             <p className="text-gray-light capitalize font-normal p-0 self-start">
               {name}
