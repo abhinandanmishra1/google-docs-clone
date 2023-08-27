@@ -2,12 +2,20 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowRight from '@mui/icons-material/ArrowRight';
+import { styled } from '@mui/material';
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+    display: 'flex',
+    gap: "10px",
+    width: "200px"
+}))
 
 const NestedMenuItem = React.forwardRef((props, ref) => {
     const {
         parentMenuOpen,
         label,
         rightIcon = <ArrowRight style={{ fontSize: 16 }} />,
+        leftIcon = null,
         keepOpen,
         children,
         customTheme,
@@ -113,17 +121,18 @@ const NestedMenuItem = React.forwardRef((props, ref) => {
             onMouseLeave={handleMouseLeave}
             onKeyDown={handleKeyDown}
         >
-            <MenuItem
+            <StyledMenuItem
                 {...MenuItemProps}
                 data-open={!!open || undefined}
                 className={className}
                 ref={menuItemRef}
                 keepOpen={keepOpen}
             >
+                {leftIcon}
                 {label}
                 <div style={{ flexGrow: 1 }} />
                 {rightIcon}
-            </MenuItem>
+            </StyledMenuItem>
             <Menu
                 hideBackdrop
                 style={{ pointerEvents: 'none' }}
@@ -143,6 +152,9 @@ const NestedMenuItem = React.forwardRef((props, ref) => {
                 disableEnforceFocus
                 onClose={() => {
                     setIsSubMenuOpen(false);
+                }}
+                sx={{
+                    width: "250px"
                 }}
             >
                 <div ref={menuContainerRef} style={{ pointerEvents: 'auto' }}>
