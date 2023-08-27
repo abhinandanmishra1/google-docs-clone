@@ -25,6 +25,7 @@ import { Box, Button, Link } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 
 import { DropdownMenuItem, DropdownNestedMenuItem } from "../../../blocks/Menu";
+import { Kbd } from "../../../blocks/KeyboardCommand";
 
 export const FileMenu = () => {
   return (
@@ -57,7 +58,7 @@ export const FileMenu = () => {
           />,
           <DropdownNestedMenuItem
             label="Open"
-            rightIcon={<kbd>CTRL+O</kbd>}
+            rightIcon={<Kbd>CTRL+O</Kbd>}
             leftIcon={<FolderOpen />}
           />,
           <DropdownNestedMenuItem

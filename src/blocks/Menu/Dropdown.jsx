@@ -97,13 +97,33 @@ export const Dropdown = React.forwardRef(
   }
 );
 
-export const DropdownMenuItem = styled(MenuItem)`
+export const StyledMenuItem = styled(MenuItem)`
   display: flex;
   justify-content: space-between !important;
+  align-items: center;
+  gap: 8px;
   width: auto;
+  min-width: 200px;
 `;
 
 export const DropdownNestedMenuItem = styled(NestedMenuItem)`
   display: flex;
   justify-content: space-between !important;
 `;
+
+export const DropdownMenuItem = ({
+  children,
+  onClick,
+  leftIcon = null,
+  rightIcon = null,
+  ...props
+}) => {
+  return (
+    <StyledMenuItem onClick={onClick} {...props}>
+      {leftIcon}
+      <label className="text-sm"> {children}</label>
+      <div style={{ flexGrow: 1 }} />
+      {rightIcon}
+    </StyledMenuItem>
+  );
+};
