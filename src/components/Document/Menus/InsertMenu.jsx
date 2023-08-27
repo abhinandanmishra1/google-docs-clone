@@ -1,126 +1,69 @@
 import { MenuLayout } from "../../../blocks/Menu";
 import {
+  AddOutlined,
+  AddToDrive,
   Dashboard,
   Description,
+  DrawOutlined,
+  DriveEtaOutlined,
   FileOpen,
+  FileUploadOutlined,
   FolderOpen,
+  FunctionsOutlined,
+  HorizontalRuleOutlined,
+  Image,
+  ImageOutlined,
   LibraryBooks,
+  PlusOneOutlined,
+  SearchOutlined,
 } from "@mui/icons-material";
+
+import { LiaGoogleDrive } from "react-icons/lia";
 
 import { Box, Button, Link } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 
-import {
-  DropdownMenuItem,
-  DropdownNestedMenuItem,
-} from "../../../blocks/Menu";
+import { DropdownMenuItem, DropdownNestedMenuItem } from "../../../blocks/Menu";
 
 export const InsertMenu = () => {
-
   return (
     <>
       <MenuLayout
         name="Insert"
         items={[
           <DropdownNestedMenuItem
-            label="New"
-            rightIcon={<ArrowRight />}
+            label="Image"
+            leftIcon={<ImageOutlined />}
             menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Document
+              <DropdownMenuItem leftIcon={<FileUploadOutlined />}>
+                Upload from computer
               </DropdownMenuItem>,
-              <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From Markdown file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.md`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
-              </DropdownMenuItem>,
-              <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From HTML file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.html`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
+              <DropdownMenuItem leftIcon={<SearchOutlined />}>
+                Search the web
               </DropdownMenuItem>,
             ]}
           />,
           <DropdownNestedMenuItem
-            label="Save as"
-            rightIcon={<ArrowRight />}
+            label="Drawing"
+            leftIcon={<DrawOutlined />}
             menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Markdown
+              <DropdownMenuItem leftIcon={<AddOutlined />}>
+                New
               </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Plain HTML
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Styled HTML
+              <DropdownMenuItem leftIcon={<LiaGoogleDrive />}>
+                From drive
               </DropdownMenuItem>,
             ]}
           />,
           <DropdownNestedMenuItem
-            label="Export"
-            rightIcon={<ArrowRight />}
-            menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                PDF
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Github Gist
-              </DropdownMenuItem>,
-            ]}
+            label="Horizontal line"
+            leftIcon={<HorizontalRuleOutlined />}
+            rightIcon={null}
+          />,
+          <DropdownNestedMenuItem
+            label="Equation"
+            leftIcon={<FunctionsOutlined />}
+            rightIcon={null}
           />,
         ]}
       />
