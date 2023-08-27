@@ -120,10 +120,28 @@ export const DropdownMenuItem = ({
 }) => {
   return (
     <StyledMenuItem onClick={onClick} {...props}>
-      {leftIcon}
+      {leftIcon && (
+        <>
+          {React.cloneElement(leftIcon, {
+            className: "text-gray-light",
+            style: {
+              fontSize: 18,
+            },
+          })}
+        </>
+      )}
       <label className="text-sm"> {children}</label>
       <div style={{ flexGrow: 1 }} />
-      {rightIcon}
+      {rightIcon && (
+        <>
+          {React.cloneElement(rightIcon, {
+            className: "text-gray-light",
+            style: {
+              fontSize: 18,
+            },
+          })}
+        </>
+      )}
     </StyledMenuItem>
   );
 };
