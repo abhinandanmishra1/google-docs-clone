@@ -53,3 +53,5 @@ export const Header = () => {
     </section>
   );
 };
+
+export * from "./DocumentHeader";
