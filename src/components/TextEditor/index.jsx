@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Quill from "quill";
-import "quill/dist/quill.snow.css";
+import "../../docs.css";
+import "../../css/toolbar.css";
+import "../../css/editor.css";
+
 import "./styles.css";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
@@ -116,6 +119,8 @@ export const TextEditor = () => {
   }, [socket, editor]);
 
   return (
-    <div className="bg-[#f3f3f3] editor" id="editor" ref={wrapperRef}></div>
+    <div className="w-full flex justify-center bg-white">
+      <div className="bg-[#fff] editor w-[98%] m-2 border min-h-screen h-auto" id="editor" ref={wrapperRef}></div>
+    </div>
   );
 };
