@@ -1,127 +1,47 @@
 import { MenuLayout } from "../../../blocks/Menu";
 import {
-  Dashboard,
-  Description,
-  FileOpen,
-  FolderOpen,
-  LibraryBooks,
+  ContentCopyOutlined,
+  ContentCutOutlined,
+  ContentPasteOutlined,
 } from "@mui/icons-material";
+import { GrUndo, GrRedo } from "react-icons/gr";
 
 import { Box, Button, Link } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 
-import {
-  DropdownMenuItem,
-  DropdownNestedMenuItem,
-} from "../../../blocks/Menu";
+import { DropdownMenuItem, DropdownNestedMenuItem } from "../../../blocks/Menu";
+import { Kbd } from "../../../blocks/KeyboardCommand";
 
 export const EditMenu = () => {
-
   return (
     <>
       <MenuLayout
         name="Edit"
         items={[
-          <DropdownNestedMenuItem
-            label="New"
-            rightIcon={<ArrowRight />}
-            menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Document
-              </DropdownMenuItem>,
-              <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From Markdown file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.md`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
-              </DropdownMenuItem>,
-              <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From HTML file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.html`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
-              </DropdownMenuItem>,
-            ]}
-          />,
-          <DropdownNestedMenuItem
-            label="Save as"
-            rightIcon={<ArrowRight />}
-            menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Markdown
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Plain HTML
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Styled HTML
-              </DropdownMenuItem>,
-            ]}
-          />,
-          <DropdownNestedMenuItem
-            label="Export"
-            rightIcon={<ArrowRight />}
-            menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                PDF
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Github Gist
-              </DropdownMenuItem>,
-            ]}
-          />,
+          <DropdownMenuItem leftIcon={<GrUndo style={{fontSize: 16}} />} rightIcon={<Kbd>CTRL+Z</Kbd>}>
+            Undo
+          </DropdownMenuItem>,
+          <DropdownMenuItem leftIcon={<GrRedo style={{fontSize: 16}} />} rightIcon={<Kbd>CTRL+Y</Kbd>}>
+            Redo
+          </DropdownMenuItem>,
+          <DropdownMenuItem
+            leftIcon={<ContentCutOutlined style={{fontSize: 16}} />}
+            rightIcon={<Kbd>CTRL+X</Kbd>}
+          >
+            Cut
+          </DropdownMenuItem>,
+          <DropdownMenuItem
+            leftIcon={<ContentCopyOutlined style={{fontSize: 16}} />}
+            rightIcon={<Kbd>CTRL+C</Kbd>}
+          >
+            Copy
+          </DropdownMenuItem>,
+          <DropdownMenuItem
+            leftIcon={<ContentPasteOutlined style={{fontSize: 16}} />}
+            rightIcon={<Kbd>CTRL+V</Kbd>}
+          >
+            Paste
+          </DropdownMenuItem>,
         ]}
       />
     </>
