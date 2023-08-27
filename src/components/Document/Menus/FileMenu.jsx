@@ -1,22 +1,32 @@
 import { MenuLayout } from "../../../blocks/Menu";
 import {
+  BorderColorOutlined,
+  ContentCopy,
   Dashboard,
   Description,
+  Download,
+  DownloadDoneSharp,
+  DownloadForOffline,
+  DownloadOutlined,
+  Email,
+  EmailOutlined,
+  FileDownload,
+  FileDownloadOutlined,
   FileOpen,
   FolderOpen,
+  FormatPaint,
+  GroupAddOutlined,
   LibraryBooks,
+  ShareOutlined,
+  TempleHinduSharp,
 } from "@mui/icons-material";
 
 import { Box, Button, Link } from "@mui/material";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 
-import {
-  DropdownMenuItem,
-  DropdownNestedMenuItem,
-} from "../../../blocks/Menu";
+import { DropdownMenuItem, DropdownNestedMenuItem } from "../../../blocks/Menu";
 
 export const FileMenu = () => {
-
   return (
     <>
       <MenuLayout
@@ -25,100 +35,63 @@ export const FileMenu = () => {
           <DropdownNestedMenuItem
             label="New"
             rightIcon={<ArrowRight />}
+            leftIcon={<Description />}
             menu={[
               <DropdownMenuItem
                 onClick={() => {
                   console.log("clicked");
                 }}
               >
-                Document
+                <div className="flex items-center gap-1">
+                  <Description className="text-blue-light" />
+                  Document
+                </div>
               </DropdownMenuItem>,
               <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From Markdown file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.md`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
-              </DropdownMenuItem>,
-              <DropdownMenuItem>
-                <Button
-                  component="label"
-                  sx={{
-                    color: "#000",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                  variant="text"
-                >
-                  From HTML file
-                  <input
-                    id="mdInput"
-                    type="file"
-                    accept={`.html`}
-                    hidden
-                    onChange={(e) => {}}
-                  />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <BorderColorOutlined className="text-gray-light" />
+                  Using template
+                </div>
               </DropdownMenuItem>,
             ]}
           />,
           <DropdownNestedMenuItem
-            label="Save as"
-            rightIcon={<ArrowRight />}
-            menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Markdown
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Plain HTML
-              </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
-                Styled HTML
-              </DropdownMenuItem>,
-            ]}
+            label="Open"
+            rightIcon={<kbd>CTRL+O</kbd>}
+            leftIcon={<FolderOpen />}
           />,
           <DropdownNestedMenuItem
-            label="Export"
-            rightIcon={<ArrowRight />}
+            label="Make a copy"
+            leftIcon={<ContentCopy />}
+            rightIcon={null}
+          />,
+          <DropdownNestedMenuItem
+            label="Share"
+            leftIcon={<GroupAddOutlined />}
+            rightIcon={null}
+          />,
+          <DropdownNestedMenuItem
+            label="Email"
+            leftIcon={<EmailOutlined />}
+            rightIcon={null}
+          />,
+          <DropdownNestedMenuItem
+            label="Download"
+            leftIcon={<FileDownloadOutlined />}
             menu={[
               <DropdownMenuItem
                 onClick={() => {
                   console.log("clicked");
                 }}
               >
-                PDF
+                Microsoft word document(.docx)
               </DropdownMenuItem>,
               <DropdownMenuItem
                 onClick={() => {
                   console.log("clicked");
                 }}
               >
-                Github Gist
+                PDF documemt(.pdf)
               </DropdownMenuItem>,
             ]}
           />,
