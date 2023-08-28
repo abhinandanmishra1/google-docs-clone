@@ -8,12 +8,15 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const {data} = await axios.get("http://localhost:5000/auth/login/success", {
-        withCredentials: true,
-      });
-      
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/login/success`,
+        {
+          withCredentials: true,
+        }
+      );
+
       setUser(data.user);
-    }
+    };
     getUser();
   }, []);
 

@@ -12,7 +12,10 @@ export const Header = ({ user }) => {
   };
 
   const logout = () => {
-    window.open("http://localhost:5000/auth/logout", "_self");
+    window.open(
+      `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/auth/logout`,
+      "_self"
+    );
   };
 
   const [open, setOpen] = useState(false);

@@ -15,13 +15,13 @@ import { Box, CircularProgress, IconButton } from "@mui/material";
 import { DocumentGridView } from "../DocumentGridView";
 import { DocumentListView } from "../DocumentListView";
 import { useQuery } from "react-query";
-import axios from "axios";
+import { axiosInstance } from "../../service";
 
 export const DocuemntListing = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["documents"],
     queryFn: async () => {
-      const { data } = await axios.get("http://localhost:5000/documents", {
+      const { data } = await axiosInstance.get("/documents", {
         withCredentials: true,
       });
       return data;
