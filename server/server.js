@@ -1,10 +1,45 @@
 const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
+const cookieSession = require("cookie-session");
 const {
   findOrCreateDocument,
   updateDocument,
 } = require("./controllers/DocumentController");
+
+const passport = require("passport");
+const passportSetup = require("./passport");
+
+const authRoute = require("./routes/auth");
+
+const bodyParser = require("body-parser");
+const { Server } = require("socket.io");
+const cors = require("cors");
+
+const app = express();
+app.use(
+  cookieSession({ name: "session", keys: ["abhi"], maxAge: 24 * 60 * 60 * 1000 })
+);
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
+
+app.use(
+  cookieSession({ name: "session", keys: ["abhi"], maxAge: 24 * 60 * 60 * 100 })
+);
 
 require("dotenv").config();
 
@@ -18,24 +53,6 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
   console.log("Databse Connected successfully");
-});
-
-const bodyParser = require("body-parser");
-const { Server } = require("socket.io");
-const cors = require("cors");
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
 });
 
 const server = http.createServer(app);
@@ -54,7 +71,7 @@ io.on("connection", (socket) => {
     try {
       const document = await findOrCreateDocument(documentId);
       socket.join(documentId);
-      console.log(document, document.data)
+      console.log(document, document.data);
       socket.emit("load-document", document.data);
     } catch (err) {
       console.log(err);
@@ -77,3 +94,13 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.post("/register", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.use("/auth", authRoute);
