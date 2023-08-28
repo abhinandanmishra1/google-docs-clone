@@ -11,11 +11,22 @@ import {
   ListAltRounded,
   SortByAlphaTwoTone,
 } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import { DocumentGridView } from "../DocumentGridView";
 import { DocumentListView } from "../DocumentListView";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 export const DocuemntListing = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["documents"],
+    queryFn: async () => {
+      const { data } = await axios.get("http://localhost:5000/documents");
+      return data;
+    },
+    cacheTime: 0,
+  });
+
   const [filters, setFilters] = useState({
     ownedBy: "owned_by_me",
   });
@@ -36,9 +47,17 @@ export const DocuemntListing = () => {
     setFilters({ ...filters, ownedBy: value });
   };
 
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <div className="bg-white flex justify-center">
-      <div className="max-w-4xl w-full py-4">
+    <div className="bg-white flex justify-center h-full">
+      <div className="max-w-4xl w-full py-4 h-full">
         <div className="  flex justify-between items-center">
           <p>Recent Documents</p>
           <div className="flex items-center h-4">
@@ -69,12 +88,12 @@ export const DocuemntListing = () => {
             </IconButton>
           </div>
         </div>
-        <div>
+        <div className="h-full">
           <Show iff={view === "grid"}>
-            <DocumentGridView />
+            <DocumentGridView data={data?.data} />
           </Show>
           <Show iff={view === "list"}>
-            <DocumentListView />
+            <DocumentListView data={data?.data || []} />
           </Show>
         </div>
       </div>

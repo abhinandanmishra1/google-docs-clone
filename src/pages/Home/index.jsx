@@ -11,7 +11,7 @@ export const Home = () => {
     return <Navigate to="/signin" />;
   }
 
-  return <div>
+  return <div className="min-h-screen h-full">
     <Header user={user} />
     <DocumentTemplates />
     <DocuemntListing />

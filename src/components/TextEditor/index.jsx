@@ -7,6 +7,7 @@ import "../../css/editor.css";
 import "./styles.css";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
+import { useDocumentContext } from "../Document/DocumentContex";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -25,14 +26,16 @@ export const TextEditor = () => {
   const [socket, setSocket] = useState();
   const [editor, setEditor] = useState();
 
+  const { name, setName } = useDocumentContext();
+
   const { id: documentId } = useParams();
 
   useEffect(() => {
     if (socket === null || editor === null) return;
 
-
     socket?.on("load-document", (document) => {
-      editor?.setContents(document);
+      editor?.setContents(document.data);
+      setName(document.name);
       editor?.enable();
       setEditorDisabled(false);
     });
@@ -46,7 +49,11 @@ export const TextEditor = () => {
     const interval = setInterval(() => {
       if (editorDisabled) return;
 
-      socket?.emit("save-document", editor?.getContents());
+      const document = {
+        data: editor?.getContents(),
+      };
+
+      socket?.emit("save-document", document);
     }, 2000);
 
     return () => {
@@ -57,8 +64,7 @@ export const TextEditor = () => {
   useEffect(() => {
     const socket = io.connect("http://localhost:5000/");
 
-    socket?.on("connect", () => {
-    });
+    socket?.on("connect", () => {});
 
     setSocket(socket);
 
@@ -91,7 +97,12 @@ export const TextEditor = () => {
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
-      socket?.emit("send-changes", delta);
+
+      const data = {
+        data: delta,
+      };
+
+      socket?.emit("send-changes", data);
     };
 
     editor?.on("text-change", handler);
@@ -104,8 +115,21 @@ export const TextEditor = () => {
   useEffect(() => {
     if (socket === null || editor === null) return;
 
-    const handler = (delta) => {
-      editor?.updateContents(delta);
+    const data = {
+      name,
+    };
+
+    socket?.emit("send-changes", data);
+    socket?.emit("save-document", data);
+  }, [name]);
+
+  useEffect(() => {
+    if (socket === null || editor === null) return;
+
+    const handler = (document) => {
+      if (document.data) editor?.updateContents(document.data);
+
+      if (document.name) setName(document.name);
     };
 
     socket?.on("recieve-changes", handler);
@@ -117,7 +141,11 @@ export const TextEditor = () => {
 
   return (
     <div className="w-full flex justify-center bg-white">
-      <div className="bg-[#fff] editor w-[98%] m-2 border min-h-screen h-auto" id="editor" ref={wrapperRef}></div>
+      <div
+        className="bg-[#fff] editor w-[98%] m-2 border min-h-screen h-auto"
+        id="editor"
+        ref={wrapperRef}
+      ></div>
     </div>
   );
 };

@@ -1,24 +1,27 @@
 const express = require("express");
-const http = require("http");
+
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
-const {
-  findOrCreateDocument,
-  updateDocument,
-} = require("./controllers/DocumentController");
+
+const setUpSocketServer = require("./socket");
 
 const passport = require("passport");
 const passportSetup = require("./passport");
 
 const authRoute = require("./routes/auth");
+const documentRoute = require("./routes/document");
 
 const bodyParser = require("body-parser");
-const { Server } = require("socket.io");
+
 const cors = require("cors");
 
 const app = express();
 app.use(
-  cookieSession({ name: "session", keys: ["abhi"], maxAge: 24 * 60 * 60 * 1000 })
+  cookieSession({
+    name: "session",
+    keys: ["abhi"],
+    maxAge: 24 * 60 * 60 * 1000,
+  })
 );
 
 app.use(bodyParser.json());
@@ -55,41 +58,7 @@ db.once("open", function () {
   console.log("Databse Connected successfully");
 });
 
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
-  },
-});
-
-io.on("connection", (socket) => {
-  socket.on("get-document", async (documentId) => {
-    if (!documentId) return;
-
-    try {
-      const document = await findOrCreateDocument(documentId);
-      socket.join(documentId);
-      socket.emit("load-document", document.data);
-    } catch (err) {
-      console.log(err);
-    }
-
-    socket.on("send-changes", (delta) => {
-      socket.broadcast.to(documentId).emit("recieve-changes", delta);
-    });
-
-    socket.on("save-document", (data) => {
-      updateDocument(documentId, data);
-    });
-  });
-});
-
-const PORT = process.env.PORT || 5000;
-
-server.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+setUpSocketServer(app);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -100,3 +69,4 @@ app.post("/register", (req, res) => {
 });
 
 app.use("/auth", authRoute);
+app.use("/documents", documentRoute);
