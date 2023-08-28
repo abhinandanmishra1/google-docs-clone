@@ -1,8 +1,8 @@
 const { Server } = require("socket.io");
 const http = require("http");
 const {
-    createNewVersionDocument,
     updateDocument,
+    findOrCreateDocument,
   } = require("./controllers/DocumentController");
   
 const setUpSocketServer = (app) => {
@@ -19,7 +19,7 @@ const setUpSocketServer = (app) => {
       if (!documentId) return;
 
       try {
-        const document = await createNewVersionDocument(documentId);
+        const document = await findOrCreateDocument(documentId);
         socket.join(documentId);
         socket.emit("load-document", document);
       } catch (err) {
