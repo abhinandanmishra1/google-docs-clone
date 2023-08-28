@@ -21,13 +21,17 @@ import {
   ToolsMenu,
   ViewMenu,
 } from "../Document/Menus";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDocumentContext } from "../Document/DocumentContex";
 
 const StyledInput = styled(Input)({
   padding: 0,
 });
-export const DocumentHeader = () => {
+export const DocumentHeader = ({ user }) => {
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const { name, setName } = useDocumentContext();
 
   const clearQuery = () => {
     setQuery("");
@@ -42,7 +46,7 @@ export const DocumentHeader = () => {
             width: "48px",
             height: "48px",
           }}
-          onClick={<Navigate to={"/"} />}
+          onClick={() => navigate("/")}
         />
       </div>
       <div className="flex grow flex-col gap-1">
@@ -70,7 +74,12 @@ export const DocumentHeader = () => {
               },
             }}
           >
-            <StyledInput placeholder="Untitled Document" className="border-0" />
+            <StyledInput
+              placeholder="Untitled Document"
+              className="border-0"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
           </Box>
           <IconButton>
             <StarOutline
