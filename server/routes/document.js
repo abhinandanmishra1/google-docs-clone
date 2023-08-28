@@ -17,6 +17,11 @@ router.get("/:id", async (req, res) => {
 
 router.get("", async (req, res) => {
   const { limit = 10, offset = 0 } = req.body;
+  const { user } = req;
+
+  if (!user) {
+    return res.status(401).send({ message: "unauthorized" });
+  }
 
   try {
     const result = await Document.aggregate([
@@ -24,6 +29,11 @@ router.get("", async (req, res) => {
         $facet: {
           total: [{ $count: "totalCount" }],
           data: [
+            {
+              $match: {
+                createdBy: user.id,
+              },
+            },
             {
               $skip: offset,
             },
@@ -35,11 +45,11 @@ router.get("", async (req, res) => {
             },
             {
               $set: {
-                id: "$_id",
+                id: "$documentId",
               },
             },
             {
-              $unset: ["_id", "data"],
+              $unset: ["_id", "documentId", "data"],
             },
           ],
         },
@@ -54,19 +64,21 @@ router.get("", async (req, res) => {
 router.post("", async (req, res) => {
   const user = req.user;
 
+  console.log(user);
+
   if (!user) {
     return res.status(401).send({ message: "unauthorized" });
   }
 
   try {
-    const documentId = mongoose.Schema.Types.ObjectId();
+    const documentId = new mongoose.Types.ObjectId();
 
-    await Document.create({
+    const result = await Document.create({
       documentId,
       data: {},
       name: "",
       createdBy: user.id,
-      createdAt: Date.now,
+      createdAt: Date.now(),
       access: [
         {
           user: user.id,
@@ -75,6 +87,9 @@ router.post("", async (req, res) => {
       ],
     });
 
+    if (!result) {
+      return res.status(500).send({ message: "something went wrong" });
+    }
     res.status(201).send({ id: documentId });
   } catch (err) {
     res.status(500).send({ message: err.message });

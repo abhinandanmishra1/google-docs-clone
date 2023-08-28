@@ -2,7 +2,8 @@ const { Server } = require("socket.io");
 const http = require("http");
 const {
     updateDocument,
-    findOrCreateDocument,
+    createNewVersionDocument,
+    getDocument,
   } = require("./controllers/DocumentController");
   
 const setUpSocketServer = (app) => {
@@ -18,8 +19,13 @@ const setUpSocketServer = (app) => {
     socket.on("get-document", async (documentId) => {
       if (!documentId) return;
 
+      let mongoDocumentId = null;
+
       try {
-        const document = await findOrCreateDocument(documentId);
+        // const document = await createNewVersionDocument(documentId, user);  -> TODO: how to get user?
+        const document = await getDocument(documentId);
+        mongoDocumentId = document?._id;
+        console.log("document", documentId, document)
         socket.join(documentId);
         socket.emit("load-document", document);
       } catch (err) {
@@ -32,7 +38,7 @@ const setUpSocketServer = (app) => {
 
       socket.on("save-document", (data) => {
         console.log("save document", data);
-        updateDocument(documentId, data);
+        updateDocument(mongoDocumentId, data);  // updating the version data 
       });
     });
   });
