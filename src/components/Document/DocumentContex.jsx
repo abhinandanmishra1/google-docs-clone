@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { axiosInstance } from "../../service";
 
 const DocumentContext = createContext(null);
 
@@ -13,7 +14,7 @@ export const DocumentProvider = ({ children }) => {
   const { data } = useQuery({
     queryKey: ["document", id],
     queryFn: async () => {
-      const { data } = await axios.get(`http://localhost:5000/documents/${id}`);
+      const { data } = await axiosInstance.get(`/documents/${id}`);
 
       return data;
     },

@@ -1,5 +1,5 @@
 const express = require("express");
-
+require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 
@@ -32,9 +32,10 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

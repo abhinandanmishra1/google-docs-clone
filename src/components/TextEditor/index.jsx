@@ -62,7 +62,7 @@ export const TextEditor = () => {
   }, [socket, editor, editorDisabled]);
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:5000/");
+    const socket = io.connect(import.meta.env.VITE_DOCS_SERVER_BASE_URL);
 
     socket?.on("connect", () => {});
 
