@@ -1,14 +1,40 @@
 import { Apps, Clear, Description, Menu, Search } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { useState } from "react";
+import { Button, IconButton } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Show } from "../../blocks/Show";
+import { Link } from "react-router-dom";
 
-export const Header = () => {
+export const Header = ({ user }) => {
   const [query, setQuery] = useState("");
 
   const clearQuery = () => {
     setQuery("");
   };
+
+  const logout = () => {
+    window.open("http://localhost:5000/auth/logout", "_self");
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((open) => !open);
+  };
+
+  const close = (e) => {
+    console.log(e.target, e);
+    if (open) {
+      setOpen(false);
+    }
+  };
+
+  // set open false when clicked anywhere on the page except the menu
+  useEffect(() => {
+    document.addEventListener("click", close);
+    return () => {
+      document.removeEventListener("click", close);
+    };
+  }, []);
 
   return (
     <section className="flex justify-between p-[8px] bg-white gap-[10px] items-center">
@@ -40,16 +66,51 @@ export const Header = () => {
           </IconButton>
         </Show>
       </div>
-      <div className="flex gap-[24px] items-center flex-none">
-        <IconButton>
-          <Apps className="text-gray-light h-[12px] w-[18px]" />
-        </IconButton>
-        <img
-          src="https://lh3.googleusercontent.com/ogw/AGvuzYYBpM3NJSU_Y0XbxRh4u5nH3nOXs7IzUSfhL_ovTA=s32-c-mo"
-          alt="user"
-          className="rounded-full"
-        />
-      </div>
+      <Show iff={!!user}>
+        <div className="flex gap-[24px] items-center flex-none" id="user">
+          <IconButton>
+            <Apps className="text-gray-light h-[12px] w-[18px]" />
+          </IconButton>
+          <div className="cursor-pointer">
+            <IconButton
+              onClick={toggle}
+              className="rounded-full"
+              sx={{
+                padding: "4px",
+              }}
+            >
+              <img
+                src={user.picture}
+                alt="user"
+                className="rounded-full h-[32px] w-[32px]"
+              />
+            </IconButton>
+
+            <div
+              className={`absolute w-[350px] right-6 p-4 flex flex-col items-center bg-[#e9eef6] z-10 rounded-[28px] shadow-custom gap-3 ${
+                open ? "block" : "hidden"
+              }`}
+            >
+              <img
+                src={user.picture}
+                alt="user"
+                className="rounded-full h-[86px] w-[86px]"
+              />
+              <h1 className="text-lg">Hi, {user.name}</h1>
+              <Button variant="contained" color="inherit" onClick={logout}>
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Show>
+      <Show iff={!user}>
+        <Link to="signin">
+          <Button variant="contained" color="primary">
+            Login
+          </Button>
+        </Link>
+      </Show>
     </section>
   );
 };

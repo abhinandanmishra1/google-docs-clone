@@ -107,16 +107,19 @@ export const DocumentHeader = () => {
           <HelpMenu />
         </div>
       </div>
-      <div className="flex gap-[24px] items-center flex-none">
-        <IconButton>
-          <Apps className="text-gray-light h-[12px] w-[18px]" />
-        </IconButton>
-        <img
-          src="https://lh3.googleusercontent.com/ogw/AGvuzYYBpM3NJSU_Y0XbxRh4u5nH3nOXs7IzUSfhL_ovTA=s32-c-mo"
-          alt="user"
-          className="rounded-full"
-        />
-      </div>
+      <Show iff={!!user}>
+        <div className="flex gap-[24px] items-center flex-none">
+          <IconButton>
+            <Apps className="text-gray-light h-[12px] w-[18px]" />
+          </IconButton>
+          <img
+            src="https://lh3.googleusercontent.com/ogw/AGvuzYYBpM3NJSU_Y0XbxRh4u5nH3nOXs7IzUSfhL_ovTA=s32-c-mo"
+            alt="user"
+            className="rounded-full"
+          />
+        </div>
+      </Show>
+      <Show iff={!user}>Login</Show>
     </section>
   );
 };
