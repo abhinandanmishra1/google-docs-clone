@@ -32,6 +32,7 @@ export const Select = ({
               toggleDropdown();
             }}
             className="px-2 py-1 hover:bg-gray-lightest cursor-pointer"
+            key={crypto.randomUUID()}
           >
             {option.label}
           </li>

@@ -21,7 +21,9 @@ export const DocuemntListing = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["documents"],
     queryFn: async () => {
-      const { data } = await axios.get("http://localhost:5000/documents");
+      const { data } = await axios.get("http://localhost:5000/documents", {
+        withCredentials: true,
+      });
       return data;
     },
     cacheTime: 0,
