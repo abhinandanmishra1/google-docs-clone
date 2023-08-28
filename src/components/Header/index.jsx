@@ -21,21 +21,6 @@ export const Header = ({ user }) => {
     setOpen((open) => !open);
   };
 
-  const close = (e) => {
-    console.log(e.target, e);
-    if (open) {
-      setOpen(false);
-    }
-  };
-
-  // set open false when clicked anywhere on the page except the menu
-  useEffect(() => {
-    document.addEventListener("click", close);
-    return () => {
-      document.removeEventListener("click", close);
-    };
-  }, []);
-
   return (
     <section className="flex justify-between p-[8px] bg-white gap-[10px] items-center">
       <div className="flex grow-0 items-center flex-none">

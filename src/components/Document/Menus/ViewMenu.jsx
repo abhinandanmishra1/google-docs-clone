@@ -52,7 +52,6 @@ export const ViewMenu = () => {
     }));
   };
 
-  console.log(view);
   return (
     <>
       <MenuLayout
