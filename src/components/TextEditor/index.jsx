@@ -30,10 +30,8 @@ export const TextEditor = () => {
   useEffect(() => {
     if (socket === null || editor === null) return;
 
-    console.log("inside effect1");
 
     socket?.on("load-document", (document) => {
-      console.log("loaded document", document);
       editor?.setContents(document);
       editor?.enable();
       setEditorDisabled(false);
@@ -60,7 +58,6 @@ export const TextEditor = () => {
     const socket = io.connect("http://localhost:5000/");
 
     socket?.on("connect", () => {
-      console.log("connected");
     });
 
     setSocket(socket);

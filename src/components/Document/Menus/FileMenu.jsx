@@ -38,11 +38,7 @@ export const FileMenu = () => {
             rightIcon={<ArrowRight />}
             leftIcon={<Description />}
             menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
+              <DropdownMenuItem onClick={() => {}}>
                 <div className="flex items-center gap-1">
                   <Description className="text-blue-light" />
                   Document
@@ -80,18 +76,10 @@ export const FileMenu = () => {
             label="Download"
             leftIcon={<FileDownloadOutlined />}
             menu={[
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
+              <DropdownMenuItem onClick={() => {}}>
                 Microsoft word document(.docx)
               </DropdownMenuItem>,
-              <DropdownMenuItem
-                onClick={() => {
-                  console.log("clicked");
-                }}
-              >
+              <DropdownMenuItem onClick={() => {}}>
                 PDF documemt(.pdf)
               </DropdownMenuItem>,
             ]}

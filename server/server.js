@@ -65,25 +65,21 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("get-document", async (documentId) => {
-    console.log("get document", documentId);
     if (!documentId) return;
 
     try {
       const document = await findOrCreateDocument(documentId);
       socket.join(documentId);
-      console.log(document, document.data);
       socket.emit("load-document", document.data);
     } catch (err) {
       console.log(err);
     }
 
     socket.on("send-changes", (delta) => {
-      console.log("send", documentId, delta);
       socket.broadcast.to(documentId).emit("recieve-changes", delta);
     });
 
     socket.on("save-document", (data) => {
-      console.log("save", documentId, data);
       updateDocument(documentId, data);
     });
   });
