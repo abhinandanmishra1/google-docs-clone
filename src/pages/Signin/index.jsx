@@ -11,6 +11,7 @@ export const Signin = () => {
   }
 
   const google = () => {
+    console.log("google", import.meta.env.VITE_DOCS_SERVER_BASE_URL);
     window.open(
       `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/google`,
       "_self"

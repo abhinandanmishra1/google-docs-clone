@@ -25,13 +25,11 @@ export const DocumentProvider = ({ children }) => {
       setName(data.name);
     }
   }, [data]);
-  console.log(data);
 
   const [value, setValue] = useState({ document: data, name, setName });
 
   useEffect(() => {
     setValue({ document: data, name, setName });
-    console.log("inside context", value);
   }, [data, name, setName]);
 
   return (
