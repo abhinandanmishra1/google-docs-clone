@@ -13,7 +13,7 @@ export const Header = ({ user }) => {
 
   const logout = () => {
     window.open(
-      `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/auth/logout`,
+      `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/logout`,
       "_self"
     );
   };

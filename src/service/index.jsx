@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_DOCS_SERVER_BASE_URL;
-console.log(import.meta);
+
+// axios.defaults.withCredentials = true;
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,

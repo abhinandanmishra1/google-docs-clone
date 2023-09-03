@@ -49,7 +49,6 @@ export const DocumentTemplates = () => {
       return data;
     },
     onSuccess: (data) => {
-      console.log(data);
       navigate(`/document/${data.id}`);
     },
     onError: (error) => {
