@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useId } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../service";
+import { getAxios } from "../../service";
 
 export const Template = ({ src, alt, templateName, onClick }) => {
   return (
@@ -35,7 +35,7 @@ export const DocumentTemplates = () => {
   const newDocId = crypto.randomUUID();
   const createDocumentMutation = useMutation({
     mutationFn: async () => {
-      const { data } = await axiosInstance.post(
+      const { data } = await getAxios().post(
         "/documents",
         {
           data: {},
