@@ -1,21 +1,28 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getAxios } from "../service";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext(null);
 
-console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID);
-
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await getAxios().get(
-        `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/login/success`
-      );
+      try {
+        const { data } = await getAxios().get(
+          `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/login/success`
+        );
 
-      setUser(data.user);
+        setUser(data.user);
+        console.log(data.user);
+        navigate("");
+      } catch (err) {
+        setUser(null);
+        // alert(err.message);
+      }
     };
     getUser();
   }, []);

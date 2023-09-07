@@ -16,6 +16,7 @@ export const Header = ({ user }) => {
       `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/logout`,
       "_self"
     );
+    localStorage.clear();
   };
 
   const [open, setOpen] = useState(false);
