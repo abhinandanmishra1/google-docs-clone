@@ -132,11 +132,13 @@ body {
 
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
   display: block;
-  margin-top: -1px;
+  margin-top: 8px;
   top: 110%;
   padding: 10px;
   z-index: 1;
-  background: green;
+  background: #ffffff;
+  /* box-shadow: -5px 4px #f3f3d3; */
+  border: 1px solid #ccc;
   border-radius: 10px;
 }
 
