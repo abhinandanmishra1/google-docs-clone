@@ -6,7 +6,7 @@ import "../../css/editor.css";
 
 import "./styles.css";
 import { io } from "socket.io-client";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useDocumentContext } from "../Document/DocumentContex";
 
 const TOOLBAR_OPTIONS = [
@@ -22,10 +22,10 @@ const TOOLBAR_OPTIONS = [
 ];
 
 export const TextEditor = () => {
+  const token = localStorage.getItem("authToken");
   const [editorDisabled, setEditorDisabled] = useState(true);
   const [socket, setSocket] = useState();
   const [editor, setEditor] = useState();
-  const [access, setAccess] = useState("admin");
 
   const { name, setName } = useDocumentContext();
 
@@ -34,8 +34,7 @@ export const TextEditor = () => {
   useEffect(() => {
     if (socket === null || editor === null) return;
 
-    socket?.on("load-document", ({document, role}) => {
-      console.log(document, role)
+    socket?.on("load-document", ({ document, role }) => {
       editor?.setContents(document.data);
       setName(document.name);
       if (role == "admin" || role == "editor") {
@@ -66,14 +65,15 @@ export const TextEditor = () => {
   }, [socket, editor, editorDisabled]);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
     const socket = io.connect(import.meta.env.VITE_DOCS_SERVER_BASE_URL, {
       query: {
         token,
       },
     });
 
-    socket?.on("connect", () => {});
+    socket?.on("connect", () => {
+      console.log("connected");
+    });
 
     setSocket(socket);
 
@@ -147,6 +147,10 @@ export const TextEditor = () => {
       socket?.off("recieve-changes", handler);
     };
   }, [socket, editor]);
+
+  if (!token) {
+    return <Navigate to="/signin" />;
+  }
 
   return (
     <div className="w-full flex justify-center bg-white">
