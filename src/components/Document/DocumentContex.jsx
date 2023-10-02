@@ -16,7 +16,7 @@ export const DocumentProvider = ({ children }) => {
     queryFn: async () => {
       const { data } = await getAxios().get(`/documents/${id}`);
 
-      return data;
+      return data.document;
     },
   });
 

@@ -4,9 +4,14 @@ import { Navigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { getAxios } from "../../service";
+import { Loading } from "../../common";
 
 export const Signin = () => {
-  const user = useUserContext();
+  const { user, loading } = useUserContext();
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   if (user) {
     return <Navigate to={"/"} />;

@@ -5,7 +5,9 @@ import { useUserContext } from "../../context/UserContext";
 import { DocumentProvider } from "./DocumentContex";
 
 export const Document = () => {
-  const user = useUserContext();
+  const { user, loading } = useUserContext();
+
+  if(loading) return 
   return (
     <DocumentProvider>
       <div className="w-full">

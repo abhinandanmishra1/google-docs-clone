@@ -4,14 +4,12 @@ import { Home } from "./pages/Home";
 import { Document } from "./components/Document";
 import { Signin } from "./pages/Signin";
 import { UserProvider } from "./context/UserContext";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient()
+import { QueryProvider } from "./service/query";
 
 function App() {
   return (
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
         <UserProvider>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -19,7 +17,7 @@ function App() {
             <Route path="/signin" element={<Signin />} />
           </Routes>
         </UserProvider>
-      </QueryClientProvider>
+      </QueryProvider>
     </BrowserRouter>
   );
 }
