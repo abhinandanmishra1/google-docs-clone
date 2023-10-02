@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Show, Select } from "../../blocks";
+import { Show, Select, FullCenter } from "../../blocks";
 import {
   Folder,
   FolderOffOutlined,
@@ -14,20 +14,11 @@ import {
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import { DocumentGridView } from "../DocumentGridView";
 import { DocumentListView } from "../DocumentListView";
-import { useQuery } from "react-query";
-import { getAxios } from "../../service";
+import { useGetDocumentsQuery } from "../../service";
+import { Loading } from "../../common";
 
 export const DocuemntListing = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["documents"],
-    queryFn: async () => {
-      const { data } = await getAxios().get("/documents", {
-        withCredentials: true,
-      });
-      return data;
-    },
-    cacheTime: 0,
-  });
+  const { data, isLoading } = useGetDocumentsQuery();
 
   const [filters, setFilters] = useState({
     ownedBy: "owned_by_me",
@@ -51,9 +42,7 @@ export const DocuemntListing = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
+      <Loading />
     );
   }
 

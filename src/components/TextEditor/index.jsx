@@ -25,6 +25,7 @@ export const TextEditor = () => {
   const [editorDisabled, setEditorDisabled] = useState(true);
   const [socket, setSocket] = useState();
   const [editor, setEditor] = useState();
+  const [access, setAccess] = useState("admin");
 
   const { name, setName } = useDocumentContext();
 
@@ -33,11 +34,14 @@ export const TextEditor = () => {
   useEffect(() => {
     if (socket === null || editor === null) return;
 
-    socket?.on("load-document", (document) => {
+    socket?.on("load-document", ({document, role}) => {
+      console.log(document, role)
       editor?.setContents(document.data);
       setName(document.name);
-      editor?.enable();
-      setEditorDisabled(false);
+      if (role == "admin" || role == "editor") {
+        editor?.enable();
+        setEditorDisabled(false);
+      }
     });
 
     socket?.emit("get-document", documentId);
@@ -62,7 +66,12 @@ export const TextEditor = () => {
   }, [socket, editor, editorDisabled]);
 
   useEffect(() => {
-    const socket = io.connect(import.meta.env.VITE_DOCS_SERVER_BASE_URL);
+    const token = localStorage.getItem("authToken");
+    const socket = io.connect(import.meta.env.VITE_DOCS_SERVER_BASE_URL, {
+      query: {
+        token,
+      },
+    });
 
     socket?.on("connect", () => {});
 

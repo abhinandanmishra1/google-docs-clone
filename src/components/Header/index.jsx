@@ -1,8 +1,9 @@
 import { Apps, Clear, Description, Menu, Search } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Popover } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Show } from "../../blocks/Show";
 import { Link } from "react-router-dom";
+import { queryClient } from "../../service/query";
 
 export const Header = ({ user }) => {
   const [query, setQuery] = useState("");
@@ -17,6 +18,7 @@ export const Header = ({ user }) => {
       "_self"
     );
     localStorage.clear();
+    queryClient.refetchQueries(["useGetUserQuery"]);
   };
 
   const [open, setOpen] = useState(false);
@@ -75,21 +77,45 @@ export const Header = ({ user }) => {
               />
             </IconButton>
 
-            <div
-              className={`absolute w-[350px] right-6 p-4 flex flex-col items-center bg-[#e9eef6] z-10 rounded-[28px] shadow-custom gap-3 ${
-                open ? "block" : "hidden"
-              }`}
+            <Popover
+              open={open}
+              // anchorEl={anchorEl}
+              onClose={toggle}
+              style={{
+                position: "absolute",
+                top: "50px",
+                left: "83%",
+                // right: "10px",
+                // left: "0",
+                background: "transparent",
+                // borderRadius: '1000px',
+                // background: "red",
+                width: "400px",
+                "&.MuiPaper-root": {
+                  width: "100% !important",
+                  borderRadius: '1000px',
+                  // background: "red"
+                },
+                ".MuiPopover-paper": {
+                  background: "green"
+                }
+              }}
+              className="w-full rounded-3xl"
             >
-              <img
-                src={user.picture}
-                alt="user"
-                className="rounded-full h-[86px] w-[86px]"
-              />
-              <h1 className="text-lg">Hi, {user.name}</h1>
-              <Button variant="contained" color="inherit" onClick={logout}>
-                Logout
-              </Button>
-            </div>
+              <div
+                className={`flex flex-col items-center shadow-custom gap-3 p-2`}
+              >
+                <img
+                  src={user.picture}
+                  alt="user"
+                  className="rounded-full h-[86px] w-[86px]"
+                />
+                <h1 className="text-lg">Hi, {user.name}</h1>
+                <Button variant="contained" color="inherit" onClick={logout}>
+                  Logout
+                </Button>
+              </div>
+            </Popover>
           </div>
         </div>
       </Show>
