@@ -1,10 +1,12 @@
 import { Article, MoreVert } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React from "react";
-import { MoreButton } from "../../blocks/MoreButton";
+import { MoreButton } from "../../../blocks/MoreButton";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 export const DocumentPreview = ({ document }) => {
+  const date = format(new Date(document.modifiedAt), "dd MMM, yyyy");
   const navigate = useNavigate();
   const openDocument = () => {
     navigate(`/document/${document.id}`);
@@ -24,9 +26,9 @@ export const DocumentPreview = ({ document }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-[5px]">
             <Article className="text-blue-light" />
-            <p className="text-gray-darker text-sm">Aug 15, 2023</p>
+            <p className="text-gray-darker text-sm">{date}</p>
           </div>
-          <MoreButton />
+          <MoreButton document={document} />
         </div>
       </div>
     </div>

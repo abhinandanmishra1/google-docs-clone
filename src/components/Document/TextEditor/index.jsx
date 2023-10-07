@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Quill from "quill";
-import "../../docs.css";
-import "../../css/toolbar.css";
-import "../../css/editor.css";
+import "../../../css/docs.css";
+import "../../../css/editor.css";
+import "../../../css/toolbar.css";
 
 import "./styles.css";
 import { io } from "socket.io-client";
 import { Navigate, useParams } from "react-router-dom";
-import { useDocumentContext } from "../Document/DocumentContex";
+import { useDocumentContext } from "../DocumentContex";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -155,7 +155,7 @@ export const TextEditor = () => {
   return (
     <div className="w-full flex justify-center bg-white">
       <div
-        className="bg-[#fff] editor w-[98%] m-2 border min-h-screen h-auto"
+        className="bg-[#fff] editor w-[98%] m-2"
         id="editor"
         ref={wrapperRef}
       ></div>

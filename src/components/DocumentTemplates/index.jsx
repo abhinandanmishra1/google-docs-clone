@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useId } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { getAxios } from "../../service";
+import { getAxios, useCreateDocumentMutation } from "../../service";
 
 export const Template = ({ src, alt, templateName, onClick }) => {
   return (
@@ -32,32 +32,20 @@ export const DocumentTemplates = () => {
   // navigate to /document/:id when create function called with an id created using useId hook
   const navigate = useNavigate();
 
-  const newDocId = crypto.randomUUID();
-  const createDocumentMutation = useMutation({
-    mutationFn: async () => {
-      const { data } = await getAxios().post(
-        "/documents",
-        {
-          data: {},
-          name: "",
-        },
-        {
-          withCredentials: true,
-        }
-      );
+  const onSuccess = (data) => {
+    console.log(data);
+    navigate(`/document/${data.id}`);
+    // Todo: add notification
+  };
 
-      return data;
-    },
-    onSuccess: (data) => {
-      navigate(`/document/${data.id}`);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const onError = (err) => {
+    console.log(err);
+    // TODO: ADD notification
+  };
 
+  const createDocumentMutation = useCreateDocumentMutation(onSuccess, onError);
   const createNewDocument = () => {
-    createDocumentMutation.mutate({});
+    createDocumentMutation.mutate();
   };
 
   return (
