@@ -12,8 +12,8 @@ import {
   SortByAlphaTwoTone,
 } from "@mui/icons-material";
 import { Box, CircularProgress, IconButton } from "@mui/material";
-import { DocumentGridView } from "../DocumentGridView";
-import { DocumentListView } from "../DocumentListView";
+import { DocumentGridView } from "./DocumentGridView";
+import { DocumentListView } from "./DocumentListView";
 import { useGetDocumentsQuery } from "../../service";
 import { Loading } from "../../common";
 
@@ -41,9 +41,7 @@ export const DocuemntListing = () => {
   };
 
   if (isLoading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (

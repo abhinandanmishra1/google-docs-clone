@@ -1,12 +1,23 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import { Home } from "./pages/Home";
 import { Document } from "./components/Document";
 import { Signin } from "./pages/Signin";
 import { UserProvider } from "./context/UserContext";
 import { QueryProvider } from "./service/query";
+import { useCallback, useEffect } from "react";
+import { getAxios } from "./service";
+import { useRefreshToken } from "./hooks/useRefreshToken";
 
 function App() {
+  useRefreshToken();
+
   return (
     <BrowserRouter>
       <QueryProvider>

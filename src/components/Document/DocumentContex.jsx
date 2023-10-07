@@ -19,6 +19,7 @@ export const DocumentProvider = ({ children }) => {
       return data.document;
     },
   });
+  const [value, setValue] = useState({ document: data, name, setName });
 
   useEffect(() => {
     if (data?.name) {
@@ -26,7 +27,6 @@ export const DocumentProvider = ({ children }) => {
     }
   }, [data]);
 
-  const [value, setValue] = useState({ document: data, name, setName });
 
   useEffect(() => {
     setValue({ document: data, name, setName });

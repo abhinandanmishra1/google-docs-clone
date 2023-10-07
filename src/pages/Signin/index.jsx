@@ -3,7 +3,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { getAxios } from "../../service";
+import { getAxios, queryClient } from "../../service";
 import { Loading } from "../../common";
 
 export const Signin = () => {
@@ -24,6 +24,7 @@ export const Signin = () => {
       });
 
       localStorage.setItem("authToken", tokens.data.access_token);
+      localStorage.setItem("refreshToken", tokens.data.refresh_token);
 
       const { id_token: idToken, refresh_token: refreshToken } = tokens.data;
 
@@ -31,6 +32,8 @@ export const Signin = () => {
         refreshToken,
         idToken,
       });
+
+      queryClient.refetchQueries(["useGetUserQuery"]);
     },
     flow: "auth-code",
   });

@@ -1,8 +1,8 @@
 import React from "react";
 import { DocumentHeader } from "../Header";
-import { TextEditor } from "../TextEditor";
 import { useUserContext } from "../../context/UserContext";
 import { DocumentProvider } from "./DocumentContex";
+import { TextEditor } from "./TextEditor";
 
 export const Document = () => {
   const { user, loading } = useUserContext();

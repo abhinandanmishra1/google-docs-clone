@@ -26,8 +26,38 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 
 import { DropdownMenuItem, DropdownNestedMenuItem } from "../../../blocks/Menu";
 import { Kbd } from "../../../blocks/KeyboardCommand";
+import { useDocumentContext } from "../DocumentContex";
+import { useCreateDocumentMutation, useExportDocumentToPdfMutation } from "../../../service";
 
 export const FileMenu = () => {
+  const { document } = useDocumentContext();
+
+  const onSuccess = (data) => {
+    window.open(`/document/${data.id}`, '_blank');
+  }
+
+  const onError = (error) => {
+    console.log(error);
+  }
+
+  const createDocumentMutation = useCreateDocumentMutation(onSuccess, onError);
+  const createPdfMutation = useExportDocumentToPdfMutation();
+
+  const createNewDocument = () => {
+    createDocumentMutation.mutate();
+  }
+
+  const makeACopy = () => {
+    createDocumentMutation.mutate({
+      name: `Copy of ${document?.name}`,
+      data: document?.data || {}
+    });
+  }
+
+  const exportToPdf = () => {
+    createPdfMutation.mutate(document?.id);
+  }
+
   return (
     <>
       <MenuLayout
@@ -38,7 +68,7 @@ export const FileMenu = () => {
             rightIcon={<ArrowRight />}
             leftIcon={<Description />}
             menu={[
-              <DropdownMenuItem onClick={() => {}}>
+              <DropdownMenuItem onClick={createNewDocument}>
                 <div className="flex items-center gap-1">
                   <Description className="text-blue-light" />
                   Document
@@ -61,6 +91,7 @@ export const FileMenu = () => {
             label="Make a copy"
             leftIcon={<ContentCopy />}
             rightIcon={null}
+            onClick={makeACopy}
           />,
           <DropdownNestedMenuItem
             label="Share"
@@ -79,7 +110,7 @@ export const FileMenu = () => {
               <DropdownMenuItem onClick={() => {}}>
                 Microsoft word document(.docx)
               </DropdownMenuItem>,
-              <DropdownMenuItem onClick={() => {}}>
+              <DropdownMenuItem onClick={exportToPdf}>
                 PDF documemt(.pdf)
               </DropdownMenuItem>,
             ]}
