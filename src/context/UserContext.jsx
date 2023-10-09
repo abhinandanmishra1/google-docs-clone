@@ -5,11 +5,11 @@ import { useGetUserQuery } from "../service/user";
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const { data, isLoading } = useGetUserQuery();
+  const { data, isLoading, setData } = useGetUserQuery();
 
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <UserContext.Provider value={{ user: data?.user, loading: isLoading }}>
+      <UserContext.Provider value={{ user: data?.user, loading: isLoading, setData}}>
         {children}
       </UserContext.Provider>
     </GoogleOAuthProvider>
@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUserContext = () => {
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, setData } = useContext(UserContext);
 
-  return { user, loading };
+  return { user, loading, setData };
 };

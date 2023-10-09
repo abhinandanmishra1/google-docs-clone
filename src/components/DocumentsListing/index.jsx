@@ -60,13 +60,13 @@ export const DocuemntListing = () => {
             />
 
             <Show iff={view === "grid"}>
-              <IconButton>
-                <ListAltRounded onClick={toggleView} />
+              <IconButton onClick={toggleView}>
+                <ListAltRounded />
               </IconButton>
             </Show>
             <Show iff={view === "list"}>
-              <IconButton>
-                <GridView onClick={toggleView} />
+              <IconButton onClick={toggleView}>
+                <GridView />
               </IconButton>
             </Show>
             <IconButton>

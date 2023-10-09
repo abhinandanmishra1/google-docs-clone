@@ -40,7 +40,7 @@ export const Header = ({ user }) => {
             height: "48px",
           }}
         />
-        <text className="text-gray-light text-xl">Docs</text>
+        <p className="text-gray-light text-xl">Docs</p>
       </div>
       <div className="bg-gray-lighter pr-[50px] pl-[9px] flex items-center flex-1 max-w-[700px] rounded-lg py-[4px] focus-within:bg-white focus-within:shadow-md">
         <Search className="text-gray-light flex-none" />

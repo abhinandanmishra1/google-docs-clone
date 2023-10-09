@@ -7,7 +7,7 @@ import { getAxios, queryClient } from "../../service";
 import { Loading } from "../../common";
 
 export const Signin = () => {
-  const { user, loading } = useUserContext();
+  const { user, loading, setData } = useUserContext();
 
   // if (loading) {
   //   return <Loading />;
@@ -28,12 +28,16 @@ export const Signin = () => {
 
       const { id_token: idToken, refresh_token: refreshToken } = tokens.data;
 
-      await getAxios().post("/users", {
-        refreshToken,
-        idToken,
-      });
+      try {
+        const { data } = await getAxios().post("/users", {
+          refreshToken,
+          idToken,
+        });
 
-      queryClient.refetchQueries(["useGetUserQuery"]);
+        setData(data);
+      } catch (err) {
+        console.log(err);
+      }
     },
     flow: "auth-code",
   });
