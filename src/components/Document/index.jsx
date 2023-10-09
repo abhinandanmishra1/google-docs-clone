@@ -3,17 +3,20 @@ import { DocumentHeader } from "../Header";
 import { useUserContext } from "../../context/UserContext";
 import { DocumentProvider } from "./DocumentContex";
 import { TextEditor } from "./TextEditor";
+import { EditorProvider } from "../../context/useEditorContext";
 
 export const Document = () => {
   const { user, loading } = useUserContext();
 
-  if(loading) return 
+  if (loading) return;
   return (
     <DocumentProvider>
-      <div className="w-full">
-        <DocumentHeader user={user} />
-        <TextEditor />
-      </div>
+      <EditorProvider>
+        <div className="w-full">
+          <DocumentHeader user={user} />
+          <TextEditor />
+        </div>
+      </EditorProvider>
     </DocumentProvider>
   );
 };

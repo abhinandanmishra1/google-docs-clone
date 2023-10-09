@@ -6,7 +6,7 @@ export const useRefreshToken = () => {
   const refreshToken = localStorage.getItem("refreshToken");
 
   const refreshAuth = useCallback(async () => {
-    if (!authToken) return;
+    if (!authToken || !refreshToken) return;
     try {
       const tokens = await getAxios().post("/auth/google/refresh-token", {
         refreshToken,
