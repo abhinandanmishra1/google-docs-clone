@@ -9,7 +9,7 @@ export const DocumentPreview = ({ document }) => {
   const date = format(new Date(document.modifiedAt), "dd MMM, yyyy");
   const navigate = useNavigate();
   const openDocument = () => {
-    navigate(`/document/${document.id}`);
+    navigate(`/document/d/${document.id}`);
   };
 
   return (

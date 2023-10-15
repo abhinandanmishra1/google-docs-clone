@@ -1,15 +1,11 @@
 import {
   Apps,
-  Clear,
   CloudDoneOutlined,
   Description,
   DriveFileMoveOutlined,
-  Menu,
-  Search,
-  Star,
   StarOutline,
 } from "@mui/icons-material";
-import { Box, IconButton, Input, TextField, styled } from "@mui/material";
+import { Box, IconButton, Input, styled } from "@mui/material";
 import { useState } from "react";
 import { Show } from "../../blocks/Show";
 import {
@@ -21,7 +17,7 @@ import {
   ToolsMenu,
   ViewMenu,
 } from "../Document/Menus";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDocumentContext } from "../Document/DocumentContex";
 
 const StyledInput = styled(Input)({
@@ -41,7 +37,7 @@ export const DocumentHeader = ({ user }) => {
     <section className="flex justify-between p-[8px] bg-white gap-[10px] items-center">
       <div className="flex grow-0 items-center flex-none">
         <Description
-          className="text-blue-light"
+          className="text-blue-light relative z-40"
           style={{
             width: "48px",
             height: "48px",
@@ -50,7 +46,7 @@ export const DocumentHeader = ({ user }) => {
         />
       </div>
       <div className="flex grow flex-col gap-1">
-        <div className="flex items-center">
+        <div className="flex items-center relative z-40">
           <Box
             sx={{
               width: "170px",
@@ -106,7 +102,7 @@ export const DocumentHeader = ({ user }) => {
             />
           </IconButton>
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1" hidden style={{ display: "none" }}>
           <FileMenu />
           <EditMenu />
           <ViewMenu />
@@ -117,7 +113,7 @@ export const DocumentHeader = ({ user }) => {
         </div>
       </div>
       <Show iff={!!user}>
-        <div className="flex gap-[24px] items-center flex-none">
+        <div className="flex gap-[24px] items-center flex-none relative z-40">
           <IconButton>
             <Apps className="text-gray-light h-[12px] w-[18px]" />
           </IconButton>

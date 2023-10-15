@@ -9,6 +9,7 @@ import { io } from "socket.io-client";
 import { Navigate, useParams } from "react-router-dom";
 import { useDocumentContext } from "../DocumentContex";
 import { useEditorContext } from "../../../context/useEditorContext";
+import { Editor } from "./Editor";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],

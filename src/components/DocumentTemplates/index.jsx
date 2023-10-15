@@ -1,11 +1,8 @@
 import { MoreVert, UnfoldMore } from "@mui/icons-material";
 import { CircularProgress, IconButton } from "@mui/material";
-import axios from "axios";
 import PropTypes from "prop-types";
-import { useId } from "react";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { getAxios, useCreateDocumentMutation } from "../../service";
+import { useCreateDocumentMutation } from "../../service";
 
 export const Template = ({ src, alt, templateName, onClick }) => {
   return (
@@ -34,7 +31,7 @@ export const DocumentTemplates = () => {
 
   const onSuccess = (data) => {
     console.log(data);
-    navigate(`/document/${data.id}`);
+    navigate(`/document/d/${data.id}`);
     // Todo: add notification
   };
 

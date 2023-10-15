@@ -14,6 +14,7 @@ import { QueryProvider } from "./service/query";
 import { useCallback, useEffect } from "react";
 import { getAxios } from "./service";
 import { useRefreshToken } from "./hooks/useRefreshToken";
+import { DocumentTiny } from "./components/Document/DocumentTiny";
 
 function App() {
   useRefreshToken();
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/document/:id" element={<Document />} />
+            <Route path="/document/d/:id" element={<DocumentTiny />} />
             <Route path="/signin" element={<Signin />} />
           </Routes>
         </UserProvider>

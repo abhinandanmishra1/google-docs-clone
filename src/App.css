@@ -1,0 +1,20 @@
+.tox-statusbar__branding,
+.tox-statusbar__help-text,
+.tox-statusbar__path-item,
+.tox-statusbar__right-container {
+  display: none !important;
+}
+
+.tox .tox-menubar {
+  margin-left: 50px;
+}
+
+.tox-tinymce {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.editor-container {
+  position: absolute;
+  top: 54%;
+}
