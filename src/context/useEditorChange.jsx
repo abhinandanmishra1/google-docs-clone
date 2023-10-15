@@ -59,7 +59,11 @@ export const useTinyEditorChange = (editor, socket) => {
     if (socket === null || editor === null) return;
 
     const handler = (document) => {
-      if (document?.data && document?.data !== editor?.getContent()) editor?.setContent(document.data);
+      if (document?.data && document?.data !== editor?.getContent()) {
+        const bookmark = editor?.selection.getBookmark(2, true);
+        editor?.setContent(document.data);
+        editor?.selection.moveToBookmark(bookmark);
+      }
 
       if (document?.name) setName(document.name);
     };
@@ -72,14 +76,16 @@ export const useTinyEditorChange = (editor, socket) => {
   }, [socket, editor]);
 
   // sending changes through socket
-  const onEditorChange = useCallback((editorData) => {
-    const data = {
-      data: editorData,
-    };
+  const onEditorChange = useCallback(
+    (editorData) => {
+      const data = {
+        data: editorData,
+      };
 
-    socket?.emit("send-changes", data);
-  }, [socket]);
-  
+      socket?.emit("send-changes", data);
+    },
+    [socket]
+  );
 
   useEffect(() => {
     if (socket === null || editor === null) return;
@@ -94,5 +100,5 @@ export const useTinyEditorChange = (editor, socket) => {
 
   return {
     onEditorChange,
-  }
+  };
 };

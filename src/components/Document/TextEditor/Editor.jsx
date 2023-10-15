@@ -23,9 +23,9 @@ export function Editor() {
   }, [editor]);
 
   // this is called when value changes
-  useEffect(() => {
-    onEditorChange(value);
-  }, [value]);
+  // useEffect(() => {
+  //   onEditorChange(value);
+  // }, [value]);
 
   return (
     <div className="editor-container w-full min-h-screen h-screen">
@@ -38,7 +38,8 @@ export function Editor() {
         value={value}
         disabled={editorDisabled}
         onEditorChange={(editorData) => {
-          setValue(prev => editorData);
+          setValue(prev => editorData)
+          onEditorChange(editorData);
         }}
         init={{
           height: "100%",
