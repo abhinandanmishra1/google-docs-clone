@@ -8,6 +8,7 @@ import { useTinyDocumentLoad } from "../../../context/useDocumentLoad";
 export function Editor() {
   const editorRef = useRef(null);
   const [editor, setEditor] = useState();
+  const [value, setValue] = useState("");
 
   const [editorDisabled, setEditorDisabled] = useState(false);
 
@@ -21,6 +22,11 @@ export function Editor() {
     editor;
   }, [editor]);
 
+  // this is called when value changes
+  useEffect(() => {
+    onEditorChange(value);
+  }, [value]);
+
   return (
     <div className="editor-container w-full min-h-screen h-screen">
       <TinyMceEditor
@@ -29,8 +35,11 @@ export function Editor() {
           editorRef.current = editor;
           setEditor(editor);
         }}
+        value={value}
         disabled={editorDisabled}
-        onEditorChange={onEditorChange}
+        onEditorChange={(editorData) => {
+          setValue(prev => editorData);
+        }}
         init={{
           height: "100%",
           min_height: "100dvh",
