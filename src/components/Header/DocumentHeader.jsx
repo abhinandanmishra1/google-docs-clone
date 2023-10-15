@@ -37,7 +37,7 @@ export const DocumentHeader = ({ user }) => {
     <section className="flex justify-between p-[8px] bg-white gap-[10px] items-center">
       <div className="flex grow-0 items-center flex-none">
         <Description
-          className="text-blue-light relative z-40"
+          className="text-blue-light relative z-40 cursor-pointer"
           style={{
             width: "48px",
             height: "48px",
@@ -77,30 +77,32 @@ export const DocumentHeader = ({ user }) => {
               value={name}
             />
           </Box>
-          <IconButton>
-            <StarOutline
-              className="text-gray-light"
-              style={{
-                fontSize: 18,
-              }}
-            />
-          </IconButton>
-          <IconButton>
-            <DriveFileMoveOutlined
-              className="text-gray-light"
-              style={{
-                fontSize: 18,
-              }}
-            />
-          </IconButton>
-          <IconButton>
-            <CloudDoneOutlined
-              className="text-gray-light"
-              style={{
-                fontSize: 18,
-              }}
-            />
-          </IconButton>
+          <div className="hidden md:flex">
+            <IconButton>
+              <StarOutline
+                className="text-gray-light"
+                style={{
+                  fontSize: 18,
+                }}
+              />
+            </IconButton>
+            <IconButton>
+              <DriveFileMoveOutlined
+                className="text-gray-light"
+                style={{
+                  fontSize: 18,
+                }}
+              />
+            </IconButton>
+            <IconButton>
+              <CloudDoneOutlined
+                className="text-gray-light"
+                style={{
+                  fontSize: 18,
+                }}
+              />
+            </IconButton>
+          </div>
         </div>
         <div className="flex gap-1" hidden style={{ display: "none" }}>
           <FileMenu />
@@ -113,7 +115,7 @@ export const DocumentHeader = ({ user }) => {
         </div>
       </div>
       <Show iff={!!user}>
-        <div className="flex gap-[24px] items-center flex-none relative z-40">
+        <div className="hidden md:flex gap-[24px] items-center flex-none relative z-40">
           <IconButton>
             <Apps className="text-gray-light h-[12px] w-[18px]" />
           </IconButton>

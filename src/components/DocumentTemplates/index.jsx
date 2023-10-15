@@ -48,10 +48,10 @@ export const DocumentTemplates = () => {
   return (
     <>
       <div className="bg-gray-lightest flex justify-center">
-        <div className="max-w-4xl w-full py-4">
+        <div className="max-w-4xl w-full py-4 px-2">
           <div className="flex justify-between items-center relative">
             <h3 className="text-base">Start a new document</h3>
-            <div className="flex items-center">
+            <div className="hidden sm:flex items-center">
               <div className="flex gap-[5px] items-center text-gray-dark cursor-pointer hover:bg-gray-200 p-1.5 rounded-lg">
                 <h3>Template Gallery</h3>
                 <UnfoldMore style={{ width: 24, height: 24 }} />

@@ -7,6 +7,7 @@
 
 .tox .tox-menubar {
   margin-left: 50px;
+  @apply hidden md:flex !important;
 }
 
 .tox-tinymce {
@@ -16,5 +17,10 @@
 
 .editor-container {
   position: absolute;
-  top: 54%;
+  top: 60%;
+}
+
+.tox .tox-editor-header > .tox-toolbar--scrolling,
+.tox .tox-toolbar-overlord .tox-toolbar--scrolling:first-child {
+  margin-top: 10px !important;
 }

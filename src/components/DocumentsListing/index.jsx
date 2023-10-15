@@ -46,10 +46,10 @@ export const DocuemntListing = () => {
 
   return (
     <div className="bg-white flex justify-center h-full">
-      <div className="max-w-4xl w-full py-4 h-full">
+      <div className="max-w-4xl w-full py-4 h-full px-2">
         <div className="  flex justify-between items-center">
           <p>Recent Documents</p>
-          <div className="flex items-center h-4">
+          <div className="hidden md:flex items-center h-4">
             <Select
               onChange={onSelectChange}
               name="ownedBy"

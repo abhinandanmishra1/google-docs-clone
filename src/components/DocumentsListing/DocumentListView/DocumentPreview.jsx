@@ -17,8 +17,8 @@ export const DocumentPreview = ({ document }) => {
         <Article className="text-blue-light" />
         <div className="flex justify-between flex-grow items-center gap-[10px]">
           <p className="grow">{document.name}</p>
-          <p className="text-gray-darker text-sm w-[80px]">me</p>
-          <p className="text-gray-darker text-sm w-[155px]">{date}</p>
+          <p className="text-gray-darker text-sm w-[80px] hidden md:block">me</p>
+          <p className="text-gray-darker text-sm w-[155px] hidden md:block">{date}</p>
         </div>
       </div>
       <MoreButton document={document} />

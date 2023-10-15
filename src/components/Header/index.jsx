@@ -7,6 +7,10 @@ import { queryClient } from "../../service/query";
 
 export const Header = ({ user }) => {
   const [query, setQuery] = useState("");
+  const [anchor, setAnchor] = useState(null);
+  const openPopover = (event) => {
+    setAnchor(event.currentTarget);
+  };
 
   const clearQuery = () => {
     setQuery("");
@@ -40,9 +44,9 @@ export const Header = ({ user }) => {
             height: "48px",
           }}
         />
-        <p className="text-gray-light text-xl">Docs</p>
+        <p className="text-gray-light text-xl hidden md:block">Docs</p>
       </div>
-      <div className="bg-gray-lighter pr-[50px] pl-[9px] flex items-center flex-1 max-w-[700px] rounded-lg py-[4px] focus-within:bg-white focus-within:shadow-md">
+      <div className="hidden bg-gray-lighter pr-[50px] pl-[9px] sm:flex items-center flex-1 max-w-[700px] rounded-lg py-[4px] focus-within:bg-white focus-within:shadow-md">
         <Search className="text-gray-light flex-none" />
         <input
           type="text"
@@ -59,12 +63,14 @@ export const Header = ({ user }) => {
       </div>
       <Show iff={!!user}>
         <div className="flex gap-[24px] items-center flex-none" id="user">
-          <IconButton>
-            <Apps className="text-gray-light h-[12px] w-[18px]" />
-          </IconButton>
+          <div className="hidden md:block">
+            <IconButton>
+              <Apps className="text-gray-light h-[12px] w-[18px]" />
+            </IconButton>
+          </div>
           <div className="cursor-pointer">
             <IconButton
-              onClick={toggle}
+              onClick={openPopover}
               className="rounded-full"
               sx={{
                 padding: "4px",
@@ -78,27 +84,16 @@ export const Header = ({ user }) => {
             </IconButton>
 
             <Popover
-              open={open}
-              // anchorEl={anchorEl}
-              onClose={toggle}
-              style={{
-                position: "absolute",
-                top: "50px",
-                left: "83%",
-                // right: "10px",
-                // left: "0",
-                background: "transparent",
-                // borderRadius: '1000px',
-                // background: "red",
-                width: "400px",
-                "&.MuiPaper-root": {
-                  width: "100% !important",
-                  borderRadius: '1000px',
-                  // background: "red"
-                },
-                ".MuiPopover-paper": {
-                  background: "green"
-                }
+              open={Boolean(anchor)}
+              anchorEl={anchor}
+              onClose={() => setAnchor(null)}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
               }}
               className="w-full rounded-3xl"
             >
