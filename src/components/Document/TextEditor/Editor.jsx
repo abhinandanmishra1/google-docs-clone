@@ -4,9 +4,13 @@ import { useSocketConnection } from "../../../context/useSocketConnection";
 import { useTinyEditorChange } from "../../../context/useEditorChange";
 import { useTinySaveDocument } from "../../../context/useSaveDocument";
 import { useTinyDocumentLoad } from "../../../context/useDocumentLoad";
+import { useParams } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 export function Editor() {
+  const { id } = useParams();
   const editorRef = useRef(null);
+  const [isSetContent, setIsSetContent] = useState(false);
   const [editor, setEditor] = useState();
   const [value, setValue] = useState("");
 
@@ -37,8 +41,15 @@ export function Editor() {
         }}
         value={value}
         disabled={editorDisabled}
+        onSetContent={() => setIsSetContent(true)}
         onEditorChange={(editorData) => {
           setValue(prev => editorData)
+
+          if(isSetContent) {
+            setIsSetContent(false);
+            return;
+          }
+          
           onEditorChange(editorData);
         }}
         init={{
@@ -46,7 +57,6 @@ export function Editor() {
           min_height: "100dvh",
           width: "100%",
           resize: false,
-
           plugins: [
             // "print",
             "preview",
