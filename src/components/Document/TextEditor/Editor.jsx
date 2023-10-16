@@ -45,10 +45,10 @@ export function Editor() {
         onEditorChange={(editorData) => {
           setValue(prev => editorData)
 
-          if(isSetContent) {
-            setIsSetContent(false);
-            return;
-          }
+          // if(isSetContent) {
+          //   setTimeout(() => setIsSetContent(false), 200)
+          //   return;
+          // }
           
           onEditorChange(editorData);
         }}

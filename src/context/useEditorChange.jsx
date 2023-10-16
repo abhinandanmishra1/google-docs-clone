@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDocumentContext } from "../components/Document/DocumentContex";
+import debounce from "lodash.debounce";
 
 export const useEditorChange = (editor, socket) => {
   const { name, setName } = useDocumentContext();
@@ -51,7 +52,10 @@ export const useEditorChange = (editor, socket) => {
   }, [name]);
 };
 
-export const useTinyEditorChange = (editor, socket) => {
+export const useTinyEditorChange = (
+  editor,
+  socket,
+) => {
   const { name, setName } = useDocumentContext();
 
   // recieving changes from socket
@@ -61,7 +65,7 @@ export const useTinyEditorChange = (editor, socket) => {
     const handler = (document) => {
       if (document?.data && document?.data !== editor?.getContent()) {
         const bookmark = editor?.selection.getBookmark(2, true);
-        editor?.setContent(document.data);
+        editor?.setContent(document.data, { no_events: true });
         editor?.selection.moveToBookmark(bookmark);
       }
 
