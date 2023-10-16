@@ -15,6 +15,10 @@ export const useSocketConnection = () => {
       console.log("connected");
     });
 
+    socket?.on("disconnect", () => {
+      socket?.emit("disconnect");
+    })
+
     setSocket(socket);
 
     return () => {

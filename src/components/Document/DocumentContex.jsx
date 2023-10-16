@@ -10,6 +10,7 @@ const DocumentContext = createContext(null);
 export const DocumentProvider = ({ children }) => {
   const { id } = useParams();
   const [name, setName] = useState("");
+  const [users, setUsers] = useState([]);
 
   const { data } = useQuery({
     queryKey: ["document", id],
@@ -19,7 +20,7 @@ export const DocumentProvider = ({ children }) => {
       return data.document;
     },
   });
-  const [value, setValue] = useState({ document: data, name, setName });
+  const [value, setValue] = useState({ document: data, name, setName, users, setUsers });
 
   useEffect(() => {
     if (data?.name) {
@@ -29,8 +30,8 @@ export const DocumentProvider = ({ children }) => {
 
 
   useEffect(() => {
-    setValue({ document: data, name, setName });
-  }, [data, name, setName]);
+    setValue({ document: data, name, setName, users, setUsers});
+  }, [data, name, setName, users, setUsers]);
 
   return (
     <DocumentContext.Provider value={value}>

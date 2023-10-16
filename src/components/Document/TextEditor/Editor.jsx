@@ -5,7 +5,7 @@ import { useTinyEditorChange } from "../../../context/useEditorChange";
 import { useTinySaveDocument } from "../../../context/useSaveDocument";
 import { useTinyDocumentLoad } from "../../../context/useDocumentLoad";
 import { useParams } from "react-router-dom";
-import debounce from "lodash.debounce";
+import { useLoadUser } from "../../../context/useLoadUser";
 
 export function Editor() {
   const { id } = useParams();
@@ -21,6 +21,7 @@ export function Editor() {
   useTinySaveDocument(editorRef.current, socket);
   useTinyDocumentLoad(editorRef.current, socket, setEditorDisabled);
   const { onEditorChange } = useTinyEditorChange(editorRef.current, socket);
+  useLoadUser(socket);
 
   useEffect(() => {
     editor;

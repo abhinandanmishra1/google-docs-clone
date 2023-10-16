@@ -27,7 +27,7 @@ export const DocumentHeader = ({ user }) => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const { name, setName } = useDocumentContext();
+  const { name, setName, users } = useDocumentContext();
 
   const clearQuery = () => {
     setQuery("");
@@ -113,6 +113,19 @@ export const DocumentHeader = ({ user }) => {
           <ExtensionsMenu />
           <HelpMenu />
         </div>
+      </div>
+      <div className="flex relative z-40">
+        {users.map((user) => {
+          return (
+            <div key={crypto.randomUUID()} className="h-[24px] w-[24px]">
+              <img
+                src={user?.picture}
+                alt={user?.name}
+                className="rounded-full"
+              />
+            </div>
+          );
+        })}
       </div>
       <Show iff={!!user}>
         <div className="hidden md:flex gap-[24px] items-center flex-none relative z-40">

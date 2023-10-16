@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDocumentContext } from "../components/Document/DocumentContex";
-import debounce from "lodash.debounce";
 
 export const useEditorChange = (editor, socket) => {
   const { name, setName } = useDocumentContext();
