@@ -1,7 +1,5 @@
 import {
-  DeleteForeverOutlined,
   DeleteOutlined,
-  DriveFileRenameOutline,
   FormatSizeOutlined,
   MoreVert,
   OfflinePinOutlined,
@@ -34,7 +32,7 @@ export const MoreButton = ({ document = {} }) => {
   };
 
   const openInNewTab = () => {
-    window.open(`/document/${id}`, "_blank");
+    window.open(`/document/d/${id}`, "_blank");
   };
 
   const exportToPdf = () => {
