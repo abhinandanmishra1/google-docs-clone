@@ -16,7 +16,7 @@ export const useSocketConnection = () => {
     });
 
     socket?.on("disconnect", () => {
-      socket?.emit("disconnect");
+      socket?.emit("disconnect-event");
     })
 
     setSocket(socket);

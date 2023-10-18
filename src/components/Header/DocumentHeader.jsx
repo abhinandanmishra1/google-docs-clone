@@ -3,9 +3,12 @@ import {
   CloudDoneOutlined,
   Description,
   DriveFileMoveOutlined,
+  HistoryRounded,
+  LockOutlined,
+  PersonAddOutlined,
   StarOutline,
 } from "@mui/icons-material";
-import { Box, IconButton, Input, styled } from "@mui/material";
+import { Box, Button, IconButton, Input, styled } from "@mui/material";
 import { useState } from "react";
 import { Show } from "../../blocks/Show";
 import {
@@ -19,6 +22,7 @@ import {
 } from "../Document/Menus";
 import { useNavigate } from "react-router-dom";
 import { useDocumentContext } from "../Document/DocumentContex";
+import { ShareModal } from "../ShareModal";
 
 const StyledInput = styled(Input)({
   padding: 0,
@@ -127,6 +131,7 @@ export const DocumentHeader = ({ user }) => {
           );
         })}
       </div>
+      <ShareModal />
       <Show iff={!!user}>
         <div className="hidden md:flex gap-[24px] items-center flex-none relative z-40">
           <IconButton>

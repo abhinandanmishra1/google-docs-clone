@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useDocumentContext } from "../components/Document/DocumentContex";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const useTinyDocumentLoad = (editor, socket, setEditorDisabled) => {
   const { id: documentId } = useParams();
@@ -14,7 +14,7 @@ export const useTinyDocumentLoad = (editor, socket, setEditorDisabled) => {
       editor?.setContent(document.data);
       setEditorDisabled(true);
       setName(document.name);
-      if (role == "admin" || role == "editor") {
+      if (role == "admin" || role == "editor" || role == "owner") {
         setEditorDisabled(false);
       }
     });
