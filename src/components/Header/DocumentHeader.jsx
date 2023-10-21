@@ -3,13 +3,10 @@ import {
   CloudDoneOutlined,
   Description,
   DriveFileMoveOutlined,
-  HistoryRounded,
-  LockOutlined,
-  PersonAddOutlined,
   StarOutline,
 } from "@mui/icons-material";
-import { Box, Button, IconButton, Input, styled } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, IconButton, Input, TextField, styled } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Show } from "../../blocks/Show";
 import {
   EditMenu,
@@ -24,15 +21,41 @@ import { useNavigate } from "react-router-dom";
 import { useDocumentContext } from "../Document/DocumentContex";
 import { ShareModal } from "../ShareModal";
 import { UserPopover } from "../UserPopover";
+import { useSocketContext } from "../../context/SocketContext";
 
 const StyledInput = styled(Input)({
   padding: 0,
 });
+
 export const DocumentHeader = ({ user }) => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const { name, setName, users, role } = useDocumentContext();
+  const { socket } = useSocketContext();
+  const { name, setName, users, role, isEditorDisabled } = useDocumentContext();
+
+  const [documentName, setDocumentName] = useState(name);
+
+  useEffect(() => {
+    setDocumentName(name);
+  }, [name]);
+
+  const emitNameUpdate = (e) => {
+    setDocumentName(e.target.value);
+    socket?.emit("name-update", e.target.value);
+  };
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket?.on("recieve-name", (name) => {
+      setName(name);
+      setDocumentName(name)
+    });
+
+    return () => {
+      socket?.off("recieve-name");
+    };
+  }, [socket, name]);
 
   const clearQuery = () => {
     setQuery("");
@@ -77,10 +100,10 @@ export const DocumentHeader = ({ user }) => {
           >
             <StyledInput
               placeholder="Untitled Document"
-              className="border-0"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              disabled={role === "none" || role === "viewer"}
+              className="border-0 p-2 outline-none focus-visible:border-1"
+              onChange={emitNameUpdate}
+              value={documentName}
+              disabled={isEditorDisabled}
             />
           </Box>
           <div className="hidden md:flex">

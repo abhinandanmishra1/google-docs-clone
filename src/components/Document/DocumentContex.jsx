@@ -45,8 +45,8 @@ export const DocumentProvider = ({ children }) => {
   }, [value]);
 
   useEffect(() => {
-    if (data?.name) {
-      setName(data.name);
+    if (data?.document?.name) {
+      setName(data.document.name);
     }
   }, [data]);
 

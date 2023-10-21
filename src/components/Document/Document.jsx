@@ -5,6 +5,7 @@ import { DocumentHeader } from "../Header";
 import { Editor } from "./TextEditor/Editor";
 import { Loading } from "../../common";
 import { Error } from "../../common/Error";
+import { SocketProvider } from "../../context/SocketContext";
 
 export const Document = () => {
   const { user, loading } = useUserContext();
@@ -32,9 +33,11 @@ export const Document = () => {
   }
 
   return (
-    <div className="w-full relative">
-      <DocumentHeader user={user} />
-      <Editor />
-    </div>
+    <SocketProvider>
+      <div className="w-full relative">
+        <DocumentHeader user={user} />
+        <Editor />
+      </div>
+    </SocketProvider>
   );
 };

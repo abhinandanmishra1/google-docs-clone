@@ -7,6 +7,7 @@ import { useTinyDocumentLoad } from "../../../context/useDocumentLoad";
 import { useParams } from "react-router-dom";
 import { useLoadUser } from "../../../context/useLoadUser";
 import { useDocumentContext } from "../DocumentContex";
+import { useSocketContext } from "../../../context/SocketContext";
 
 export function Editor() {
   const { id } = useParams();
@@ -17,8 +18,7 @@ export function Editor() {
 
   const { editorDisabled }= useDocumentContext();
 
-  const { socket } = useSocketConnection();
-
+  const { socket } = useSocketContext();
   useTinySaveDocument(editorRef.current, socket);
   useTinyDocumentLoad(editorRef.current, socket);
   const { onEditorChange } = useTinyEditorChange(editorRef.current, socket);
