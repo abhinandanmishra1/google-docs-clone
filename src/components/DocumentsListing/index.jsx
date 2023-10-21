@@ -18,12 +18,11 @@ import { useGetDocumentsQuery } from "../../service";
 import { Loading } from "../../common";
 
 export const DocuemntListing = () => {
-  const { data, isLoading } = useGetDocumentsQuery();
-
   const [filters, setFilters] = useState({
-    ownedBy: "owned_by_me",
+    ownedBy: "me",
   });
 
+  const { data, isLoading } = useGetDocumentsQuery(filters);
   const [view, setView] = useState("list");
 
   const toggleView = () => {
@@ -31,9 +30,9 @@ export const DocuemntListing = () => {
   };
 
   const options = [
-    { value: "owned_by_anyone", label: "Owned by anyone" },
-    { value: "owned_by_me", label: "Owned by me" },
-    { value: "not_owned_by_me", label: "Not owned by me" },
+    { value: "any", label: "Owned by anyone" },
+    { value: "me", label: "Owned by me" },
+    { value: "others", label: "Not owned by me" },
   ];
 
   const onSelectChange = (value) => {
@@ -55,7 +54,7 @@ export const DocuemntListing = () => {
               name="ownedBy"
               options={options}
               placeholder="Owned by anyone"
-              initialValue="owned_by_anyone"
+              initialValue="me"
               value={filters.ownedBy}
             />
 

@@ -3,12 +3,12 @@ import { getAxios, queryClient } from ".";
 import { saveAs } from "file-saver";
 import { pdfExporter } from "quill-to-pdf";
 
-export const useGetDocumentsQuery = () => {
+export const useGetDocumentsQuery = (params) => {
   return useQuery({
-    queryKey: ["useGetDocumentsQuery"],
+    queryKey: ["useGetDocumentsQuery", params],
     queryFn: async () => {
       const { data } = await getAxios().get("/documents", {
-        withCredentials: true,
+        params,
       });
       return data;
     },
