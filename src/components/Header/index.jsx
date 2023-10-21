@@ -4,33 +4,15 @@ import { useEffect, useState } from "react";
 import { Show } from "../../blocks/Show";
 import { Link } from "react-router-dom";
 import { queryClient } from "../../service/query";
+import { UserPopover } from "../UserPopover";
 
 export const Header = ({ user }) => {
   const [query, setQuery] = useState("");
-  const [anchor, setAnchor] = useState(null);
-  const openPopover = (event) => {
-    setAnchor(event.currentTarget);
-  };
 
   const clearQuery = () => {
     setQuery("");
   };
-
-  const logout = () => {
-    window.open(
-      `${import.meta.env.VITE_DOCS_SERVER_BASE_URL}/auth/logout`,
-      "_self"
-    );
-    localStorage.clear();
-    queryClient.refetchQueries(["useGetUserQuery"]);
-  };
-
-  const [open, setOpen] = useState(false);
-
-  const toggle = () => {
-    setOpen((open) => !open);
-  };
-
+  
   return (
     <section className="flex justify-between p-[8px] bg-white gap-[10px] items-center">
       <div className="flex grow-0 items-center flex-none">
@@ -68,50 +50,7 @@ export const Header = ({ user }) => {
               <Apps className="text-gray-light h-[12px] w-[18px]" />
             </IconButton>
           </div>
-          <div className="cursor-pointer">
-            <IconButton
-              onClick={openPopover}
-              className="rounded-full"
-              sx={{
-                padding: "4px",
-              }}
-            >
-              <img
-                src={user.picture}
-                alt="user"
-                className="rounded-full h-[32px] w-[32px]"
-              />
-            </IconButton>
-
-            <Popover
-              open={Boolean(anchor)}
-              anchorEl={anchor}
-              onClose={() => setAnchor(null)}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              className="w-full rounded-3xl"
-            >
-              <div
-                className={`flex flex-col items-center shadow-custom gap-3 p-2`}
-              >
-                <img
-                  src={user.picture}
-                  alt="user"
-                  className="rounded-full h-[86px] w-[86px]"
-                />
-                <h1 className="text-lg">Hi, {user.name}</h1>
-                <Button variant="contained" color="inherit" onClick={logout}>
-                  Logout
-                </Button>
-              </div>
-            </Popover>
-          </div>
+          <UserPopover />
         </div>
       </Show>
       <Show iff={!user}>

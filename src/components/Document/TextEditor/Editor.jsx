@@ -14,7 +14,7 @@ export function Editor() {
   const [editor, setEditor] = useState();
   const [value, setValue] = useState("");
 
-  const [editorDisabled, setEditorDisabled] = useState(false);
+  const [editorDisabled, setEditorDisabled] = useState(true);
 
   const { socket } = useSocketConnection();
 
@@ -26,11 +26,6 @@ export function Editor() {
   useEffect(() => {
     editor;
   }, [editor]);
-
-  // this is called when value changes
-  // useEffect(() => {
-  //   onEditorChange(value);
-  // }, [value]);
 
   return (
     <div className="editor-container w-full min-h-screen h-screen">

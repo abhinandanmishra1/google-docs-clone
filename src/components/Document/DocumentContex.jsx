@@ -12,15 +12,25 @@ export const DocumentProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
 
-  const { data } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["document", id],
     queryFn: async () => {
       const { data } = await getAxios().get(`/documents/${id}`);
 
-      return data.document;
+      return data;
     },
   });
-  const [value, setValue] = useState({ document: data, name, setName, users, setUsers });
+
+  const [value, setValue] = useState({
+    document: data?.document,
+    role: data?.role || "none",
+    name,
+    setName,
+    users,
+    setUsers,
+    documentLoading: isLoading,
+    documentError: error,
+  });
 
   useEffect(() => {
     if (data?.name) {
@@ -28,10 +38,19 @@ export const DocumentProvider = ({ children }) => {
     }
   }, [data]);
 
-
   useEffect(() => {
-    setValue({ document: data, name, setName, users, setUsers});
-  }, [data, name, setName, users, setUsers]);
+    setValue((prev) => ({
+      ...prev,
+      document: data?.document,
+      role: data?.role || "none",
+      name,
+      setName,
+      users,
+      setUsers,
+      documentLoading: isLoading,
+      documentError: error,
+    }));
+  }, [data, name, setName, users, setUsers, isLoading, error]);
 
   return (
     <DocumentContext.Provider value={value}>

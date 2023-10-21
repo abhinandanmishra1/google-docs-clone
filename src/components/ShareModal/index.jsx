@@ -20,6 +20,14 @@ import { useNotificationContext } from "../../context/NotificationProvider";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getAxios } from "../../service";
+import { useUserContext } from "../../context/UserContext";
+
+export const PermissionsEnum = {
+  1: "VIEW",
+  2: "EDIT",
+  4: "ADMIN",
+  8: "ALL",
+};
 
 export const ShareModal = () => {
   const { id } = useParams();
@@ -29,24 +37,26 @@ export const ShareModal = () => {
     email: "",
   });
 
+  const { user: currentUser } = useUserContext();
+  const { name, role: currentUserRole } = useDocumentContext();
   const { setMessage, setType, openNotification } = useNotificationContext();
 
   const toggleModal = () => {
     setIsModalOpen((open) => !open);
   };
 
-  const { data: shareData } = useQuery({
+  const { data: documentUsers } = useQuery({
     queryKey: ["document", id, "users"],
     queryFn: async () => {
-      const { data } = await getAxios().get(`documents/${id}/users`);
+      const { data } = await getAxios().get(`access/${id}/users`);
 
       return data;
     },
   });
 
   const updateUserRoleMutation = useMutation({
-    mutationFn: async () => {
-      await getAxios().patch(`documents/${id}/users`, data);
+    mutationFn: async (data) => {
+      await getAxios().patch(`access/${id}/users`, data);
     },
     onSuccess: () => {
       setMessage("Role updated!");
@@ -54,14 +64,21 @@ export const ShareModal = () => {
       openNotification();
       toggleModal();
     },
-    onError: () => {
-      setMessage("Failed to update role!");
+    onError: (err) => {
+      setMessage(err?.response?.data?.message || "Failed to update role!");
       setType("error");
       openNotification();
     },
   });
 
-  const shareDocument = () => {
+  const shareDocument = (data) => {
+    if (currentUserRole !== "owner") {
+      setMessage("Only owner can share the document!");
+      setType("error");
+      openNotification();
+      return;
+    }
+
     if (!data.email || !data.role) {
       setMessage("Please fill all fields!");
       setType("error");
@@ -69,11 +86,14 @@ export const ShareModal = () => {
       return;
     }
 
-    updateUserRoleMutation.mutateAsync({});
+    updateUserRoleMutation.mutateAsync(data);
   };
 
-  const sharedWithEveryOne = shareData?.sharedWithEveryOne;
-  const users = shareData?.users;
+  const { public: publicRoleData, private: privateRoleData } =
+    documentUsers || {};
+
+  const publicPermission = publicRoleData?.permission;
+  const users = privateRoleData || [];
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -82,8 +102,6 @@ export const ShareModal = () => {
     openNotification();
   };
 
-  const { name } = useDocumentContext();
-
   return (
     <>
       <div className="relative z-40 flex gap-2">
@@ -91,7 +109,7 @@ export const ShareModal = () => {
           <HistoryRounded className="text-gray-light" />
         </IconButton>
         <div className="md:hidden">
-          <IconButton sx={{ background: "#b5d1ffc4" }}>
+          <IconButton sx={{ background: "#b5d1ffc4" }} onClick={toggleModal}>
             <PersonAddOutlined className="text-gray-light" />
           </IconButton>
         </div>
@@ -170,9 +188,10 @@ export const ShareModal = () => {
 
           <Box>
             {(users || []).map((user) => {
+              const userRole = PermissionsEnum[user.permission];
               return (
                 <div
-                  key={user.email}
+                  key={user.userId}
                   className="flex items-center justify-between hover:bg-gray-lighter cursor-pointer rounded-lg p-2"
                 >
                   <div className="flex items-center gap-2">
@@ -190,9 +209,30 @@ export const ShareModal = () => {
                       </Typography>
                     </div>
                   </div>
-                  <p className="text-gray-light text-base capitalize">
-                    {user.role}
-                  </p>
+                  <Select
+                    labelId="user-permission-select-label"
+                    id="user-permission-select"
+                    defaultValue={userRole}
+                    disabled={
+                      currentUser?.id === user._id ||
+                      currentUserRole !== "owner" ||
+                      userRole === "ALL"
+                    }
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      shareDocument({
+                        email: user.email,
+                        role: e.target.value,
+                      });
+                    }}
+                  >
+                    <MenuItem value={"VIEW"}>Viewer</MenuItem>
+                    <MenuItem value={"EDIT"}>Editor</MenuItem>
+                    <MenuItem value={"ADMIN"}>Admin</MenuItem>
+                    <MenuItem value={"ALL"} disabled>
+                      Owner
+                    </MenuItem>
+                  </Select>
                 </div>
               );
             })}
@@ -220,10 +260,10 @@ export const ShareModal = () => {
               Copy Link
             </Button>
             <Button
-              disabled={!data.email}
+              disabled={!data.email || currentUserRole !== "owner"}
               variant="contained"
               color="primary"
-              onClick={shareDocument}
+              onClick={() => shareDocument(data)}
             >
               Ok
             </Button>

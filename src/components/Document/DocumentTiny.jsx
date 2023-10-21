@@ -4,19 +4,17 @@ import { useUserContext } from "../../context/UserContext";
 import { DocumentProvider } from "./DocumentContex";
 import { Editor } from "./TextEditor/Editor";
 import { EditorTinyProvider } from "../../context/useTinyEditorContext";
+import { Document } from "./Document";
 
 export const DocumentTiny = () => {
-  const { user, loading } = useUserContext();
+  const { user, loading, role } = useUserContext();
 
   if (loading) return <>Loading.......</>;
 
   return (
     <DocumentProvider>
       <EditorTinyProvider>
-        <div className="w-full relative">
-          <DocumentHeader user={user} />
-          <Editor />
-        </div>
+        <Document />
       </EditorTinyProvider>
     </DocumentProvider>
   );
