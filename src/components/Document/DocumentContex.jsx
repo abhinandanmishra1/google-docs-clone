@@ -11,6 +11,7 @@ export const DocumentProvider = ({ children }) => {
   const { id } = useParams();
   const [name, setName] = useState("");
   const [users, setUsers] = useState([]);
+  const [editorDisabled, setEditorDisabled] = useState(true);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["document", id],
@@ -30,7 +31,18 @@ export const DocumentProvider = ({ children }) => {
     setUsers,
     documentLoading: isLoading,
     documentError: error,
+    editorDisabled,
   });
+
+  useEffect(() => {
+    if(!value) return;
+
+    if (value.role === "admin" || value.role === "editor" || value.role === "owner") {
+      setEditorDisabled(false);
+    } else {
+      setEditorDisabled(true);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (data?.name) {
@@ -43,14 +55,15 @@ export const DocumentProvider = ({ children }) => {
       ...prev,
       document: data?.document,
       role: data?.role || "none",
-      name,
+      name: data?.document?.name,
       setName,
       users,
       setUsers,
       documentLoading: isLoading,
       documentError: error,
+      editorDisabled,
     }));
-  }, [data, name, setName, users, setUsers, isLoading, error]);
+  }, [data, name, setName, users, setUsers, isLoading, error, editorDisabled]);
 
   return (
     <DocumentContext.Provider value={value}>

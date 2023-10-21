@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDocumentContext } from "../components/Document/DocumentContex";
+import { useUserContext } from "./UserContext";
 
 export const useLoadUser = (socket) => {
   const { setUsers } = useDocumentContext();
+  const { user: currentUser } = useUserContext();
+
   useEffect(() => {
     if (socket === null) return;
 
     socket?.on("load-user", (user) => {
-      if (!user) return;
+      if (!user || user?.id === currentUser?.id) return;
 
       setUsers((prev) => [...prev, user]);
 

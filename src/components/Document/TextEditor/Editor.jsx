@@ -6,6 +6,7 @@ import { useTinySaveDocument } from "../../../context/useSaveDocument";
 import { useTinyDocumentLoad } from "../../../context/useDocumentLoad";
 import { useParams } from "react-router-dom";
 import { useLoadUser } from "../../../context/useLoadUser";
+import { useDocumentContext } from "../DocumentContex";
 
 export function Editor() {
   const { id } = useParams();
@@ -14,12 +15,12 @@ export function Editor() {
   const [editor, setEditor] = useState();
   const [value, setValue] = useState("");
 
-  const [editorDisabled, setEditorDisabled] = useState(true);
+  const { editorDisabled }= useDocumentContext();
 
   const { socket } = useSocketConnection();
 
   useTinySaveDocument(editorRef.current, socket);
-  useTinyDocumentLoad(editorRef.current, socket, setEditorDisabled);
+  useTinyDocumentLoad(editorRef.current, socket);
   const { onEditorChange } = useTinyEditorChange(editorRef.current, socket);
   useLoadUser(socket);
 
