@@ -12,16 +12,39 @@ import {
   useExportDocumentToPdfMutation,
   useUpdateDocumentMutation,
   useDeleteDocumentMutation,
+  getAxios,
 } from "../../service";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { useUserContext } from "../../context/UserContext";
+import { useQuery } from "react-query";
 
 export const MoreButton = ({ document = {} }) => {
+  const { user } = useUserContext();
+
   const [renameModalOpen, setRenameModalOpen] = React.useState(false);
   const [name, setName] = React.useState(document?.name);
+
+  const { data } = useQuery({
+    queryKey: ["documentRole", document.id],
+    queryFn: async () => {
+      const { data } = await getAxios().get(`/access/${document.id}/role`, {
+        params: {
+          user: user?.id,
+        },
+      });
+
+      return data;
+    },
+    enabled: !!user && !!document,
+  });
 
   const toggleModal = () => {
     setRenameModalOpen((isOpen) => !isOpen);
   };
+
+  const isEditDisabled =
+    !data || data?.role === "none" || data?.role === "viewer";
+
   const { id } = document;
   const exportToPdfMutation = useExportDocumentToPdfMutation();
   const deleteDocumentMutation = useDeleteDocumentMutation();
@@ -36,7 +59,7 @@ export const MoreButton = ({ document = {} }) => {
   };
 
   const exportToPdf = () => {
-    exportToPdfMutation.mutate(id);
+    // exportToPdfMutation.mutate(id);
   };
 
   const onNameUpdate = () => {
@@ -53,12 +76,14 @@ export const MoreButton = ({ document = {} }) => {
           <DropdownMenuItem
             leftIcon={<FormatSizeOutlined style={{ fontSize: 16 }} />}
             onClick={toggleModal}
+            disabled={isEditDisabled}
           >
             Rename
           </DropdownMenuItem>,
           <DropdownMenuItem
             leftIcon={<DeleteOutlined style={{ fontSize: 16 }} />}
             onClick={onRemove}
+            disabled={isEditDisabled}
           >
             Remove
           </DropdownMenuItem>,
