@@ -5,7 +5,14 @@ import {
   DriveFileMoveOutlined,
   StarOutline,
 } from "@mui/icons-material";
-import { Box, Button, IconButton, Input, TextField, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  TextField,
+  styled,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Show } from "../../blocks/Show";
 import {
@@ -32,7 +39,7 @@ export const DocumentHeader = ({ user }) => {
   const navigate = useNavigate();
 
   const { socket } = useSocketContext();
-  const { name, setName, users, role, isEditorDisabled } = useDocumentContext();
+  const { name, setName, users, role, editorDisabled } = useDocumentContext();
 
   const [documentName, setDocumentName] = useState(name);
 
@@ -49,7 +56,7 @@ export const DocumentHeader = ({ user }) => {
     if (socket === null) return;
     socket?.on("recieve-name", (name) => {
       setName(name);
-      setDocumentName(name)
+      setDocumentName(name);
     });
 
     return () => {
@@ -79,6 +86,7 @@ export const DocumentHeader = ({ user }) => {
             sx={{
               width: "170px",
               "& .MuiInput-root": {
+                cursor: editorDisabled ? "not-allowed" : "pointer",
                 border: 1,
                 borderColor: "white",
                 borderRadius: "4px",
@@ -103,7 +111,7 @@ export const DocumentHeader = ({ user }) => {
               className="border-0 p-2 outline-none focus-visible:border-1"
               onChange={emitNameUpdate}
               value={documentName}
-              disabled={isEditorDisabled}
+              disabled={editorDisabled}
             />
           </Box>
           <div className="hidden md:flex">

@@ -20,6 +20,8 @@ export const DocumentProvider = ({ children }) => {
 
       return data;
     },
+    refetchInterval: false,
+    retry: false
   });
 
   const [value, setValue] = useState({
